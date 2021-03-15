@@ -104,7 +104,7 @@ function App() {
 
       <h4>Tuotteet varastossa</h4>
       <input value={itemsFilter} onChange={handleFilterChange} />
-      <Items items={goodsToShow} deleteItem={deleteItem} />
+      <Items items={goodsToShow} deleteItem={deleteItem} categories={categories} />
 
 
 
