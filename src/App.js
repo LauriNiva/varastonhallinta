@@ -10,6 +10,7 @@ function App() {
   const [goods, setGoods] = useState([]);
   const [newItemElguide, setNewItemElguide] = useState("");
   const [newItemName, setNewItemName] = useState("");
+  const [itemsFilter, setItemsFilter] = useState("");
 
   useEffect(() =>{
     axios
@@ -38,8 +39,15 @@ function App() {
     setNewItemName(e.target.value);
   }
 
+  const handleFilterChange = (e) => {
+    setItemsFilter(e.target.value);
+  }
 
-  const goodsToShow = goods;
+
+  const goodsToShow = goods.filter(item => 
+    item.name.toLowerCase().includes(itemsFilter.toLowerCase())
+    || item.elguide.toLowerCase().includes(itemsFilter.toLowerCase())
+    );
 
   console.log(goodsToShow);
 
@@ -56,7 +64,7 @@ function App() {
 
 
     <h4>Tuotteet varastossa</h4>
-    <input></input>
+    <input value={itemsFilter} onChange={handleFilterChange} />
     <Items items={goodsToShow} />
 
 
