@@ -1,16 +1,8 @@
 
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import Items from './components/Items';
 
-const Items = ({items}) => {
-  return(
-    <div className="items">
-      <ul>
-        {items.map(item => <li key={item.id}>{item.elguide}:{item.name}</li>)}
-      </ul>
-    </div>
-  )
-}
 
 
 function App() {
