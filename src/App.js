@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Items from './components/Items';
 import CategoryButtons from "./components/CategoryButtons";
+import AddNewItemForm from "./components/AddNewItemForm";
+
 
 
 function App() {
@@ -32,8 +34,6 @@ function App() {
         setCategoryFilter(response.data.map(category => category.id))
       });
   }, []);
-
-  console.log("catFil:", categoryFilter);
 
   const addItem = (e) => {
     e.preventDefault();
@@ -89,25 +89,17 @@ function App() {
     || item.elguide.toLowerCase().includes(itemsFilter.toLowerCase())
   ).filter(item => categoryFilter.includes(item.id));
 
-  //console.log(goodsToShow);
 
   return (
     <div className="app">
       <h1>Varastonhallinta</h1>
 
       <h4>Lisää tuote</h4>
-      <form onSubmit={addItem}>
-        Guidekoodi <input value={newItemElguide} onChange={handleElguideChange} /><br />
-        Tuotekoodi <input value={newItemName} onChange={handleNameChange} /><br />
-        Kategoria
-        <input type="radio" name="category" id="0" value="0" onClick={handleCategoryChange} /> <label htmlFor="0">APK</label>
-        <input type="radio" name="category" id="1" value="1" onClick={handleCategoryChange} /> <label htmlFor="1">PPK</label>
-        <input type="radio" name="category" id="2" value="2" onClick={handleCategoryChange} /> <label htmlFor="2">Kaappi</label>
-        <input type="radio" name="category" id="3" value="3" onClick={handleCategoryChange} /> <label htmlFor="3">Arkku</label>
-        <input type="radio" name="category" id="4" value="4" onClick={handleCategoryChange} /> <label htmlFor="4">Muu</label>
-        <br />
-        <button type="submit">Lisää</button>
-      </form>
+
+      <AddNewItemForm addItem={addItem} newItemElguide={newItemElguide} handleElguideChange={handleElguideChange}
+      newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
+      categories={categories} />
+      
 
 
       <h4>Tuotteet varastossa</h4>
