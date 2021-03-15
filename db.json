@@ -9,6 +9,39 @@
       "elguide": "725668",
       "name": "Lodik TUF55L",
       "id": 2
+    },
+    {
+      "elguide": "23543456",
+      "name": "dfgdfg",
+      "id": 3
+    },
+    {
+      "elguide": "234234",
+      "name": "dfsgdfg",
+      "category": "0",
+      "id": 4
+    }
+  ],
+  "categories": [
+    {
+      "name": "APK",
+      "id": 0
+    },
+    {
+      "name": "PPK",
+      "id": 1
+    },
+    {
+      "name": "Kaappi",
+      "id": 2
+    },
+    {
+      "name": "Arkku",
+      "id": 3
+    },
+    {
+      "name": "Muu",
+      "id": 4
     }
   ],
   "stocks": [
