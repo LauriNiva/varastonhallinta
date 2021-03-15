@@ -1,19 +1,37 @@
 {
-  "posts": [
+  "goods": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "elguide": "234345",
+      "name": "Matsui"
+    },
+    {
+      "id": 2,
+      "elguide": "432645",
+      "name": "Gram"
+    },
+    {
+      "elguide": "152345",
+      "name": "152345",
+      "id": 3
+    },
+    {
+      "elguide": "152345",
+      "name": "Logik LUF55E20",
+      "id": 4
     }
   ],
-  "comments": [
+  "stocks": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "name": "4212"
+    },
+    {
+      "id": 2,
+      "name": "5212"
     }
   ],
-  "profile": {
-    "name": "typicode"
+  "warehouses": {
+    "name": "pannari"
   }
 }
