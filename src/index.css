@@ -7,3 +7,33 @@ body {
   margin:auto;
   width: 800px;
 }
+
+.items{
+  margin-top: 10px;
+}
+
+.items-table{
+  border-collapse: collapse;
+  min-width: 400px;
+}
+
+td{
+  border-style: solid;
+  border-width: 1px;
+}
+
+.category-buttons{
+  margin-top: 5px;
+}
+
+.category-buttons button {
+  border-style: none;
+  border-radius: 5px;
+  background-color: rgb(0, 18, 97);
+  margin-left: 2px;
+  padding: 5px;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+}
