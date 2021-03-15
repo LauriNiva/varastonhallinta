@@ -1,6 +1,5 @@
 const Items = ({ items, deleteItem, categories }) => {
 
-    console.log("cat:", categories);
     let itemList;
 
     if (categories[0]) {

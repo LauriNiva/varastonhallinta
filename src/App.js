@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Items from './components/Items';
-
+import CategoryButtons from "./components/CategoryButtons";
 
 
 function App() {
@@ -11,10 +11,12 @@ function App() {
   const [categories, setCategories] = useState([]);
 
   const [itemsFilter, setItemsFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState([]);
 
   const [newItemElguide, setNewItemElguide] = useState("");
   const [newItemName, setNewItemName] = useState("");
   const [newItemCategory, setnewItemCategory] = useState("");
+
 
   useEffect(() => {
     axios
@@ -24,12 +26,14 @@ function App() {
       });
 
     axios
-    .get("http://localhost:3001/categories")
-    .then(response =>{
-      setCategories(response.data);
-    });
+      .get("http://localhost:3001/categories")
+      .then(response => {
+        setCategories(response.data);
+        setCategoryFilter(response.data.map(category => category.id))
+      });
   }, []);
 
+  console.log("catFil:", categoryFilter);
 
   const addItem = (e) => {
     e.preventDefault();
@@ -37,23 +41,19 @@ function App() {
     axios
       .post("http://localhost:3001/goods", newItem)
       .then(response => {
-        setGoods(goods.concat(response.data))
+        setGoods(goods.concat(response.data));
         setNewItemElguide("");
-        setNewItemName("")
+        setNewItemName("");
       });
 
   }
 
   const deleteItem = (id) => {
-
     const itemUrl = `http://localhost:3001/goods/${id}`;
-
     axios
       .delete(itemUrl)
       .then(response => {
-        console.log("beep");
         setGoods(goods.filter(item => item.id !== id))
-
       });
   }
 
@@ -75,11 +75,19 @@ function App() {
     setItemsFilter(e.target.value);
   }
 
+  const updateCategoryFilter = category => {
+    setCategoryFilter([category])
+  }
+
+  const clearCategoryFilter = () => {
+    setCategoryFilter(categories.map(category => category.id));
+  }
+
 
   const goodsToShow = goods.filter(item =>
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
     || item.elguide.toLowerCase().includes(itemsFilter.toLowerCase())
-  );
+  ).filter(item => categoryFilter.includes(item.id));
 
   //console.log(goodsToShow);
 
@@ -92,18 +100,19 @@ function App() {
         Guidekoodi <input value={newItemElguide} onChange={handleElguideChange} /><br />
         Tuotekoodi <input value={newItemName} onChange={handleNameChange} /><br />
         Kategoria
-        <input type="radio" name="category" id="0" value="0" onClick={handleCategoryChange}/> <label htmlFor="0">APK</label>
-        <input type="radio" name="category" id="1" value="1" onClick={handleCategoryChange}/> <label htmlFor="1">PPK</label>
-        <input type="radio" name="category" id="2" value="2" onClick={handleCategoryChange}/> <label htmlFor="2">Kaappi</label>
-        <input type="radio" name="category" id="3" value="3" onClick={handleCategoryChange}/> <label htmlFor="3">Arkku</label>
-        <input type="radio" name="category" id="4" value="4" onClick={handleCategoryChange}/> <label htmlFor="4">Muu</label>
-        <br/>
+        <input type="radio" name="category" id="0" value="0" onClick={handleCategoryChange} /> <label htmlFor="0">APK</label>
+        <input type="radio" name="category" id="1" value="1" onClick={handleCategoryChange} /> <label htmlFor="1">PPK</label>
+        <input type="radio" name="category" id="2" value="2" onClick={handleCategoryChange} /> <label htmlFor="2">Kaappi</label>
+        <input type="radio" name="category" id="3" value="3" onClick={handleCategoryChange} /> <label htmlFor="3">Arkku</label>
+        <input type="radio" name="category" id="4" value="4" onClick={handleCategoryChange} /> <label htmlFor="4">Muu</label>
+        <br />
         <button type="submit">Lisää</button>
       </form>
 
 
       <h4>Tuotteet varastossa</h4>
       <input value={itemsFilter} onChange={handleFilterChange} />
+      <CategoryButtons categories={categories} clearCategoryFilter={clearCategoryFilter} handleCategoryFilter={updateCategoryFilter} />
       <Items items={goodsToShow} deleteItem={deleteItem} categories={categories} />
 
 
