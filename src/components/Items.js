@@ -6,14 +6,14 @@ const Items = ({ items, deleteItem, categories }) => {
     if (categories[0]) {
         itemList = items.map(item =>
             <li key={item.id}>
-                {item.elguide}: {item.name} - {categories.find(category => category.id === parseInt(item.category)).name}
+                {item.code}: {item.name} - {categories.find(category => category.id === parseInt(item.category)).name}
                 <button onClick={() => deleteItem(item.id)}>-</button>
             </li>
         );
     } else {
         itemList = items.map(item =>
             <li key={item.id}>
-                {item.elguide}: {item.name} -
+                {item.code}: {item.name} -
                 <button onClick={() => deleteItem(item.id)}>-</button>
             </li>
         );

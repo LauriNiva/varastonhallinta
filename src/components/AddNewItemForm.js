@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddNewItemForm = ({ addItem, newItemElguide, handleElguideChange, newItemName, handleNameChange, handleCategoryChange, categories }) => {
+const AddNewItemForm = ({ addItem, newItemCode, handleCodeChange, newItemName, handleNameChange, handleCategoryChange, categories }) => {
 
     const radiobuttons = categories.map(category =>
         <React.Fragment key={category.id}>
@@ -12,7 +12,7 @@ const AddNewItemForm = ({ addItem, newItemElguide, handleElguideChange, newItemN
     return (
         <div className="new-item-form">
             <form onSubmit={addItem}>
-                Guidekoodi <input value={newItemElguide} onChange={handleElguideChange} /><br />
+                Guidekoodi <input value={newItemCode} onChange={handleCodeChange} /><br />
                 Tuotekoodi <input value={newItemName} onChange={handleNameChange} /><br />
                 Kategoria {radiobuttons}
                 <br />

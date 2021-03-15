@@ -2,24 +2,24 @@
   "goods": [
     {
       "id": 1,
-      "elguide": "234345",
+      "code": "234345",
       "name": "Matsui",
       "category": "1"
     },
     {
-      "elguide": "725668",
-      "name": "Lodik TUF55L",
-      "category": "1",
+      "code": "725668",
+      "name": "Lodik TUF55L wash",
+      "category": "2",
       "id": 2
     },
     {
-      "elguide": "2345654",
-      "name": "LG FL435w",
-      "category": "1",
+      "code": "2345654",
+      "name": "LG FL435w freezer",
+      "category": "3",
       "id": 3
     },
     {
-      "elguide": "534",
+      "code": "534",
       "name": "TestiKaappi",
       "category": "3",
       "id": 4

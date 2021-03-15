@@ -15,7 +15,7 @@ function App() {
   const [itemsFilter, setItemsFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState([]);
 
-  const [newItemElguide, setNewItemElguide] = useState("");
+  const [newItemCode, setNewItemCode] = useState("");
   const [newItemName, setNewItemName] = useState("");
   const [newItemCategory, setnewItemCategory] = useState("");
 
@@ -37,12 +37,12 @@ function App() {
 
   const addItem = (e) => {
     e.preventDefault();
-    const newItem = { elguide: newItemElguide, name: newItemName, category: newItemCategory };
+    const newItem = { code: newItemCode, name: newItemName, category: newItemCategory };
     axios
       .post("http://localhost:3001/goods", newItem)
       .then(response => {
         setGoods(goods.concat(response.data));
-        setNewItemElguide("");
+        setNewItemCode("");
         setNewItemName("");
       });
 
@@ -58,8 +58,8 @@ function App() {
   }
 
 
-  const handleElguideChange = (e) => {
-    setNewItemElguide(e.target.value);
+  const handleCodeChange = (e) => {
+    setNewItemCode(e.target.value);
   }
 
   const handleNameChange = (e) => {
@@ -86,7 +86,7 @@ function App() {
 
   const goodsToShow = goods.filter(item =>
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
-    || item.elguide.toLowerCase().includes(itemsFilter.toLowerCase())
+    || item.code.toLowerCase().includes(itemsFilter.toLowerCase())
   ).filter(item => categoryFilter.includes(item.id));
 
 
@@ -96,7 +96,7 @@ function App() {
 
       <h4>Lisää tuote</h4>
 
-      <AddNewItemForm addItem={addItem} newItemElguide={newItemElguide} handleElguideChange={handleElguideChange}
+      <AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
       newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
       categories={categories} />
       
