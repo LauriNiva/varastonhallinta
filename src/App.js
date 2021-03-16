@@ -21,6 +21,8 @@ function App() {
   const [newItemName, setNewItemName] = useState("");
   const [newItemCategory, setnewItemCategory] = useState("");
 
+  const [uiMode, setUiMode] = useState("Saldo");
+
 
   useEffect(() => {
     axios
@@ -91,11 +93,16 @@ function App() {
     setCategoryFilter(categories.map(category => category.id));
   }
 
+  const changeUi = (e) => {
+    //console.log(e.target.textContent);
+    setUiMode(e.target.textContent);
+  }
+
   //console.log("warehousefilter: ", warehouseFilter);
   //console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name === warehouseFilter));
 
   let goodsInWarehouse = [];
-  if (warehouses[0]) {
+  if (warehouses.lenght) {
     goodsInWarehouse = warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLocaleLowerCase()).items;
   }
 
@@ -111,23 +118,48 @@ function App() {
   ).filter(item => categoryFilter.includes(parseInt(item.category)));
   //console.log("Filtered goods: ", goodsToShow);
 
-  return (
-    <div className="app">
-      <h1>Varastonhallinta</h1>
-
-      <h4>Lisää tuote</h4>
-
-      <AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
-        newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
-        categories={categories} />
+  console.log(uiMode);
 
 
-
-      <h4>Tuotteet varastossa</h4>
+  const RenderUiMode = ({ uiMode }) => {
+    if (uiMode === "Saldo") {
+      return(`
+        <h4>Tuotteet varastossa</h4>
 
       <input value={itemsFilter} onChange={handleFilterChange} />
       <CategoryButtons categories={categories} clearCategoryFilter={clearCategoryFilter} handleCategoryFilter={updateCategoryFilter} />
       <Items items={goodsInWarehouse} filteredItems={goodsToShow} deleteItem={deleteItem} categories={categories} />
+`
+      )
+    } else if (uiMode === "Laskenta") {
+      return<AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
+        newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
+        categories={categories} />
+    } else if (uiMode === "Hallinta") {
+      return<div></div>
+    } else {
+      return <></>
+    }
+  }
+
+
+  return (
+    <div className="app">
+      <h1>Varastonhallinta</h1>
+      <div className="ui-buttons">
+        <button id="btn-saldo" onClick={changeUi}>Saldo</button><button id="btn-laskenta" onClick={changeUi}>Laskenta</button><button id="btn-hallinta" onClick={changeUi}>Hallinta</button>
+      </div>
+
+
+      <RenderUiMode uiMode={uiMode} />
+
+
+
+
+
+
+
+      
 
 
 

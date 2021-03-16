@@ -1,9 +1,9 @@
 const Items = ({ items, filteredItems, deleteItem, categories }) => {
 
     let itemList;
-    console.log("filteredItems: ", filteredItems);
-    console.log("items: ", items);
-    console.log("categories: ", categories);
+    //console.log("filteredItems: ", filteredItems);
+    //console.log("items: ", items);
+    //console.log("categories: ", categories);
 
     if (items.length && filteredItems.length && categories.length) {
         itemList = items.map(item => {
@@ -16,7 +16,7 @@ const Items = ({ items, filteredItems, deleteItem, categories }) => {
                 <tr key={iItem.id}>
                     <td>{iItem.code}</td>
                     <td>{iItem.name}</td>
-                    <td>{item.saldo}</td>
+                    <td><button>-</button>{item.saldo}<button>+</button></td>
                     <td>{categories.find(category => category.id === parseInt(iItem.category)).name}</td>
                     {/* <td><button onClick={() => deleteItem(item.id)}>-</button></td> */}
                 </tr>
