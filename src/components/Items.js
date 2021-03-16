@@ -1,25 +1,30 @@
-const Items = ({ items, deleteItem, categories }) => {
+const Items = ({ items, filteredItems, deleteItem, categories }) => {
 
     let itemList;
-    //console.log("categories: ",categories);
-    //console.log("items: ", items);
+    console.log("filteredItems: ", filteredItems);
+    console.log("items: ", items);
+    console.log("categories: ", categories);
 
-    if (categories[0]) {
-        itemList = items.map(item =>
-            <tr key={item.id}>
-                <td>{item.code}</td>
-                <td>{item.name}</td>
-                <td>{categories.find(category => category.id === parseInt(item.category)).name}</td>
-                {/* <td><button onClick={() => deleteItem(item.id)}>-</button></td> */}
-            </tr>
+    if (items.length && filteredItems.length && categories.length) {
+        itemList = items.map(item => {
+
+            const iItem = filteredItems.find(filteredItem => filteredItem.id === item.itemid);
+
+            if(!iItem)return;
+
+            return (
+                <tr key={iItem.id}>
+                    <td>{iItem.code}</td>
+                    <td>{iItem.name}</td>
+                    <td>{item.saldo}</td>
+                    <td>{categories.find(category => category.id === parseInt(iItem.category)).name}</td>
+                    {/* <td><button onClick={() => deleteItem(item.id)}>-</button></td> */}
+                </tr>
+            )
+        }
         );
     } else {
-        itemList = items.map(item =>
-            <li key={item.id}>
-                {item.code}: {item.name} -
-                {/* <button onClick={() => deleteItem(item.id)}>-</button> */}
-            </li>
-        );
+        itemList = <tr></tr>
     }
 
 
@@ -31,6 +36,7 @@ const Items = ({ items, deleteItem, categories }) => {
                     <tr>
                         <th>Elguide</th>
                         <th>Tuote</th>
+                        <th>Saldo</th>
                         <th>Kategoria</th>
                     </tr>
                 </thead>

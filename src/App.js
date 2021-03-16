@@ -15,7 +15,7 @@ function App() {
 
   const [itemsFilter, setItemsFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState([]);
-  const warehouseFilter = "pannari"; //testivaihe - tämä pitää muuttaa napeilla toimivaksi
+  const warehouseFilter = "Pannari"; //testivaihe - tämä pitää muuttaa napeilla toimivaksi
 
   const [newItemCode, setNewItemCode] = useState("");
   const [newItemName, setNewItemName] = useState("");
@@ -92,20 +92,24 @@ function App() {
   }
 
   //console.log("warehousefilter: ", warehouseFilter);
-  console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name === warehouseFilter));
+  //console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name === warehouseFilter));
 
-  let goodsInWarehouse;
-  if (warehouses[0]) goodsInWarehouse = warehouses.find(warehouse => warehouse.name === warehouseFilter).items;
+  let goodsInWarehouse = [];
+  if (warehouses[0]) {
+    goodsInWarehouse = warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLocaleLowerCase()).items;
+  }
 
 
-  console.log("Goods in filtered warehouse: ", goodsInWarehouse);
-  //console.log("goods: ", goods);
+  //console.log("Goods in filtered warehouse: ", goodsInWarehouse);
+
+
+
 
   const goodsToShow = goods.filter(item =>
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
     || item.code.toLowerCase().includes(itemsFilter.toLowerCase())
   ).filter(item => categoryFilter.includes(parseInt(item.category)));
-
+  //console.log("Filtered goods: ", goodsToShow);
 
   return (
     <div className="app">
@@ -120,10 +124,10 @@ function App() {
 
 
       <h4>Tuotteet varastossa</h4>
-      
+
       <input value={itemsFilter} onChange={handleFilterChange} />
       <CategoryButtons categories={categories} clearCategoryFilter={clearCategoryFilter} handleCategoryFilter={updateCategoryFilter} />
-      <Items items={goodsToShow} deleteItem={deleteItem} categories={categories} />
+      <Items items={goodsInWarehouse} filteredItems={goodsToShow} deleteItem={deleteItem} categories={categories} />
 
 
 
