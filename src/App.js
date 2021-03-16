@@ -11,9 +11,11 @@ function App() {
 
   const [goods, setGoods] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [warehouses, setWarehouses] = useState([]);
 
   const [itemsFilter, setItemsFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState([]);
+  const warehouseFilter = "pannari"; //testivaihe - tämä pitää muuttaa napeilla toimivaksi
 
   const [newItemCode, setNewItemCode] = useState("");
   const [newItemName, setNewItemName] = useState("");
@@ -33,6 +35,12 @@ function App() {
         setCategories(response.data);
         setCategoryFilter(response.data.map(category => category.id))
       });
+
+    axios
+      .get("http://localhost:3001/warehouses")
+      .then(response => {
+        setWarehouses(response.data);
+      })
   }, []);
 
   const addItem = (e) => {
@@ -83,11 +91,20 @@ function App() {
     setCategoryFilter(categories.map(category => category.id));
   }
 
+  //console.log("warehousefilter: ", warehouseFilter);
+  console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name === warehouseFilter));
+
+  let goodsInWarehouse;
+  if (warehouses[0]) goodsInWarehouse = warehouses.find(warehouse => warehouse.name === warehouseFilter).items;
+
+
+  console.log("Goods in filtered warehouse: ", goodsInWarehouse);
+  //console.log("goods: ", goods);
 
   const goodsToShow = goods.filter(item =>
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
     || item.code.toLowerCase().includes(itemsFilter.toLowerCase())
-  ).filter(item => categoryFilter.includes(item.id));
+  ).filter(item => categoryFilter.includes(parseInt(item.category)));
 
 
   return (
@@ -97,12 +114,13 @@ function App() {
       <h4>Lisää tuote</h4>
 
       <AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
-      newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
-      categories={categories} />
-      
+        newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
+        categories={categories} />
+
 
 
       <h4>Tuotteet varastossa</h4>
+      
       <input value={itemsFilter} onChange={handleFilterChange} />
       <CategoryButtons categories={categories} clearCategoryFilter={clearCategoryFilter} handleCategoryFilter={updateCategoryFilter} />
       <Items items={goodsToShow} deleteItem={deleteItem} categories={categories} />
