@@ -98,16 +98,19 @@ function App() {
     setUiMode(e.target.textContent);
   }
 
-  //console.log("warehousefilter: ", warehouseFilter);
-  //console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name === warehouseFilter));
+  console.log("-----");
+  console.log("warehousefilter: ", warehouseFilter);
+  console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLowerCase()));
+  console.log("warehouses: ",warehouses);
 
   let goodsInWarehouse = [];
-  if (warehouses.lenght) {
-    goodsInWarehouse = warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLocaleLowerCase()).items;
+  if (warehouses[0]) {
+    console.log(warehouses.lenght);
+    goodsInWarehouse = warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLowerCase()).items;
   }
 
 
-  //console.log("Goods in filtered warehouse: ", goodsInWarehouse);
+  console.log("Goods in filtered warehouse: ", goodsInWarehouse);
 
 
 
@@ -116,27 +119,27 @@ function App() {
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
     || item.code.toLowerCase().includes(itemsFilter.toLowerCase())
   ).filter(item => categoryFilter.includes(parseInt(item.category)));
-  //console.log("Filtered goods: ", goodsToShow);
+  console.log("Filtered goods: ", goodsToShow);
 
-  console.log(uiMode);
+ // console.log(uiMode);
 
 
   const RenderUiMode = ({ uiMode }) => {
     if (uiMode === "Saldo") {
-      return(`
-        <h4>Tuotteet varastossa</h4>
+      return (
+        <div>
+          <h4>Tuotteet varastossa</h4>
 
-      <input value={itemsFilter} onChange={handleFilterChange} />
-      <CategoryButtons categories={categories} clearCategoryFilter={clearCategoryFilter} handleCategoryFilter={updateCategoryFilter} />
-      <Items items={goodsInWarehouse} filteredItems={goodsToShow} deleteItem={deleteItem} categories={categories} />
-`
-      )
+          <input value={itemsFilter} onChange={handleFilterChange} />
+          <CategoryButtons categories={categories} clearCategoryFilter={clearCategoryFilter} handleCategoryFilter={updateCategoryFilter} />
+          <Items items={goodsInWarehouse} filteredItems={goodsToShow} deleteItem={deleteItem} categories={categories} />
+        </div>)
     } else if (uiMode === "Laskenta") {
-      return<AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
+      return <AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
         newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
         categories={categories} />
     } else if (uiMode === "Hallinta") {
-      return<div></div>
+      return <div></div>
     } else {
       return <></>
     }
@@ -159,7 +162,7 @@ function App() {
 
 
 
-      
+
 
 
 
