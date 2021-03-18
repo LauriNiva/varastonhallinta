@@ -67,6 +67,36 @@ function App() {
       });
   }
 
+  const increaseItemsInStock = (itemID) => {
+    const warehouseID = warehouses.find(warehouse => warehouse.name === warehouseFilter.toLowerCase()).id;
+    const itemUrl = `http://localhost:3001/warehouses/${warehouseID}`;
+    const itemToUpdate = goodsInWarehouse.find(item => item.id === itemID);
+    const updatedItem = { ...itemToUpdate, saldo: (itemToUpdate.saldo + 1) };
+
+    const newItemsInWarehouse = goodsInWarehouse.map(item => item.id !== itemID ? item : updatedItem);
+
+    axios
+      .patch(itemUrl, { items: newItemsInWarehouse })
+      .then(response => {
+        setWarehouses(warehouses.map(warehouse => warehouse.id !== warehouseID ? warehouse : response.data));
+      })
+
+  }
+
+  const decreaseItemsInStock = (itemID) => {
+    const warehouseID = warehouses.find(warehouse => warehouse.name === warehouseFilter.toLowerCase()).id;
+    const itemUrl = `http://localhost:3001/warehouses/${warehouseID}`;
+    const itemToUpdate = goodsInWarehouse.find(item => item.id === itemID);
+    const updatedItem = { ...itemToUpdate, saldo: (itemToUpdate.saldo - 1) };
+
+    const newItemsInWarehouse = goodsInWarehouse.map(item => item.id !== itemID ? item : updatedItem);
+
+    axios
+      .patch(itemUrl, { items: newItemsInWarehouse })
+      .then(response => {
+        setWarehouses(warehouses.map(warehouse => warehouse.id !== warehouseID ? warehouse : response.data));
+      })
+  }
 
   const handleCodeChange = (e) => {
     setNewItemCode(e.target.value);
@@ -94,14 +124,13 @@ function App() {
   }
 
   const changeUi = (e) => {
-    //console.log(e.target.textContent);
     setUiMode(e.target.textContent);
   }
 
   console.log("-----");
   console.log("warehousefilter: ", warehouseFilter);
   console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLowerCase()));
-  console.log("warehouses: ",warehouses);
+  console.log("warehouses: ", warehouses);
 
   let goodsInWarehouse = [];
   if (warehouses[0]) {
@@ -113,15 +142,11 @@ function App() {
   console.log("Goods in filtered warehouse: ", goodsInWarehouse);
 
 
-
-
   const goodsToShow = goods.filter(item =>
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
     || item.code.toLowerCase().includes(itemsFilter.toLowerCase())
   ).filter(item => categoryFilter.includes(parseInt(item.category)));
   console.log("Filtered goods: ", goodsToShow);
-
- // console.log(uiMode);
 
 
   const RenderUiMode = ({ uiMode }) => {
@@ -129,10 +154,10 @@ function App() {
       return (
         <div>
           <h4>Tuotteet varastossa</h4>
-
+          <h5>{warehouseFilter}</h5>
           <input value={itemsFilter} onChange={handleFilterChange} />
           <CategoryButtons categories={categories} clearCategoryFilter={clearCategoryFilter} handleCategoryFilter={updateCategoryFilter} />
-          <Items items={goodsInWarehouse} filteredItems={goodsToShow} deleteItem={deleteItem} categories={categories} />
+          <Items itemsInWarehouse={goodsInWarehouse} filteredItems={goodsToShow} categories={categories} increaseStock={increaseItemsInStock} decreaseStock={decreaseItemsInStock} />
         </div>)
     } else if (uiMode === "Laskenta") {
       return <AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
@@ -145,7 +170,6 @@ function App() {
     }
   }
 
-
   return (
     <div className="app">
       <h1>Varastonhallinta</h1>
@@ -153,18 +177,7 @@ function App() {
         <button id="btn-saldo" onClick={changeUi}>Saldo</button><button id="btn-laskenta" onClick={changeUi}>Laskenta</button><button id="btn-hallinta" onClick={changeUi}>Hallinta</button>
       </div>
 
-
       <RenderUiMode uiMode={uiMode} />
-
-
-
-
-
-
-
-
-
-
 
     </div>
   );
