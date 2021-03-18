@@ -14,7 +14,7 @@
     },
     {
       "code": "2345654",
-      "name": "LG FL435w freezer",
+      "name": "LG Kaappi 33L",
       "category": "3",
       "id": 3
     },
@@ -23,6 +23,12 @@
       "name": "TestiKaappi",
       "category": "3",
       "id": 4
+    },
+    {
+      "code": "725668",
+      "name": "asd",
+      "category": "1",
+      "id": 5
     }
   ],
   "categories": [
@@ -80,7 +86,7 @@
         {
           "id": 4,
           "itemid": 4,
-          "saldo": 8
+          "saldo": 7
         }
       ]
     }

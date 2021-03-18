@@ -45,20 +45,41 @@ function App() {
       })
   }, []);
 
+
   const addItem = (e) => {
     e.preventDefault();
     const newItem = { code: newItemCode, name: newItemName, category: newItemCategory };
-    axios
-      .post("http://localhost:3001/goods", newItem)
-      .then(response => {
-        setGoods(goods.concat(response.data));
+    if (goods.find(item => item.code === newItem.code)) {
+      const oldItem = goods.find(item => item.code === newItem.code);
+      if (window.confirm(`Koodilla ${newItem.code} löytyi jo tuote (${oldItem.name}). Haluatko päivittää tuotteelle uudet tiedot?`)) {
+        axios
+        .patch(`http://localhost:3001/goods/${oldItem.id}`, newItem)
+        .then(response => {
+          console.log("update response data", response.data);
+          setGoods(goods.map(item => item.id !== oldItem.id ? item : response.data));
+          setNewItemCode("");
+          setNewItemName("");
+        });
+      } else {
         setNewItemCode("");
         setNewItemName("");
-      });
+      }
+
+    } else {
+      axios
+        .post("http://localhost:3001/goods", newItem)
+        .then(response => {
+          setGoods(goods.concat(response.data));
+          setNewItemCode("");
+          setNewItemName("");
+        });
+    }
+
 
   }
 
   const deleteItem = (id) => {
+    //LISÄÄ CATCH JOS POISTETTU JO
     const itemUrl = `http://localhost:3001/goods/${id}`;
     axios
       .delete(itemUrl)
@@ -134,7 +155,6 @@ function App() {
 
   let goodsInWarehouse = [];
   if (warehouses[0]) {
-    console.log(warehouses.lenght);
     goodsInWarehouse = warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLowerCase()).items;
   }
 

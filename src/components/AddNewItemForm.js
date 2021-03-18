@@ -11,10 +11,10 @@ const AddNewItemForm = ({ addItem, newItemCode, handleCodeChange, newItemName, h
 
     return (
         <div className="new-item-form">
-            <h4>Lisää tuote</h4>
+            <h4>Lisää uusi tuote</h4>
             <form onSubmit={addItem}>
                 Guidekoodi <input value={newItemCode} onChange={handleCodeChange} /><br />
-                Tuotekoodi <input value={newItemName} onChange={handleNameChange} /><br />
+                Tuoteteksti <input value={newItemName} onChange={handleNameChange} /><br />
                 Kategoria {radiobuttons}
                 <br />
                 <button type="submit">Lisää</button>

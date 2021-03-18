@@ -1,4 +1,4 @@
-const Items = ({ itemsInWarehouse, filteredItems, categories, decreaseStock, increaseStock }) => {
+const AllItems = ({ itemsInWarehouse, filteredItems, categories, deleteItem }) => {
 
     let itemList;
 
@@ -13,9 +13,8 @@ const Items = ({ itemsInWarehouse, filteredItems, categories, decreaseStock, inc
                 <tr key={iItem.id}>
                     <td>{iItem.code}</td>
                     <td>{iItem.name}</td>
-                    <td><button onClick={() => decreaseStock(item.id)}>-</button>{item.saldo}<button onClick={() => increaseStock(item.id)}>+</button></td>
                     <td>{categories.find(category => category.id === parseInt(iItem.category)).name}</td>
-                    {/* <td><button onClick={() => deleteItem(item.id)}>-</button></td> */}
+                    <td><button onClick={() => deleteItem(item.id)}>-</button></td>
                 </tr>
             )
         }
@@ -33,8 +32,8 @@ const Items = ({ itemsInWarehouse, filteredItems, categories, decreaseStock, inc
                     <tr>
                         <th>Elguide</th>
                         <th>Tuote</th>
-                        <th>Saldo</th>
                         <th>Kategoria</th>
+                        <th>Poista</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,4 +44,4 @@ const Items = ({ itemsInWarehouse, filteredItems, categories, decreaseStock, inc
     )
 }
 
-export default Items;
+export default AllItems;
