@@ -149,7 +149,7 @@ function App() {
   console.log("Filtered goods: ", goodsToShow);
 
 
-  const RenderUiMode = ({ uiMode }) => {
+  const renderUiMode = (uiMode) => {
     if (uiMode === "Saldo") {
       return (
         <div>
@@ -177,7 +177,7 @@ function App() {
         <button id="btn-saldo" onClick={changeUi}>Saldo</button><button id="btn-laskenta" onClick={changeUi}>Laskenta</button><button id="btn-hallinta" onClick={changeUi}>Hallinta</button>
       </div>
 
-      <RenderUiMode uiMode={uiMode} />
+      {renderUiMode(uiMode)}
 
     </div>
   );
