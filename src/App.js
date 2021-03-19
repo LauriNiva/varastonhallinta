@@ -4,6 +4,7 @@ import axios from 'axios';
 import Items from './components/Items';
 import CategoryButtons from "./components/CategoryButtons";
 import AddNewItemForm from "./components/AddNewItemForm";
+import TopButtons from "./components/TopButtons";
 
 
 
@@ -146,12 +147,13 @@ function App() {
 
   const changeUi = (e) => {
     setUiMode(e.target.textContent);
+    
   }
 
-  console.log("-----");
-  console.log("warehousefilter: ", warehouseFilter);
-  console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLowerCase()));
-  console.log("warehouses: ", warehouses);
+  // console.log("-----");
+  // console.log("warehousefilter: ", warehouseFilter);
+  // console.log("filtered warehouse: ", warehouses.find(warehouse => warehouse.name.toLowerCase() === warehouseFilter.toLowerCase()));
+  // console.log("warehouses: ", warehouses);
 
   let goodsInWarehouse = [];
   if (warehouses[0]) {
@@ -159,14 +161,14 @@ function App() {
   }
 
 
-  console.log("Goods in filtered warehouse: ", goodsInWarehouse);
+ // console.log("Goods in filtered warehouse: ", goodsInWarehouse);
 
 
   const goodsToShow = goods.filter(item =>
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
     || item.code.toLowerCase().includes(itemsFilter.toLowerCase())
   ).filter(item => categoryFilter.includes(parseInt(item.category)));
-  console.log("Filtered goods: ", goodsToShow);
+ // console.log("Filtered goods: ", goodsToShow);
 
 
   const renderUiMode = (uiMode) => {
@@ -193,9 +195,8 @@ function App() {
   return (
     <div className="app">
       <h1>Varastonhallinta</h1>
-      <div className="ui-buttons">
-        <button id="btn-saldo" onClick={changeUi}>Saldo</button><button id="btn-laskenta" onClick={changeUi}>Laskenta</button><button id="btn-hallinta" onClick={changeUi}>Hallinta</button>
-      </div>
+      <TopButtons changeUi={changeUi} currentUI={uiMode}/>
+      
 
       {renderUiMode(uiMode)}
 
