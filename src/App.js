@@ -5,6 +5,7 @@ import Items from './components/Items';
 import CategoryButtons from "./components/CategoryButtons";
 import AddNewItemForm from "./components/AddNewItemForm";
 import TopButtons from "./components/TopButtons";
+import AllItems from './components/AllItems';
 
 
 
@@ -54,13 +55,13 @@ function App() {
       const oldItem = goods.find(item => item.code === newItem.code);
       if (window.confirm(`Koodilla ${newItem.code} löytyi jo tuote (${oldItem.name}). Haluatko päivittää tuotteelle uudet tiedot?`)) {
         axios
-        .patch(`http://localhost:3001/goods/${oldItem.id}`, newItem)
-        .then(response => {
-          console.log("update response data", response.data);
-          setGoods(goods.map(item => item.id !== oldItem.id ? item : response.data));
-          setNewItemCode("");
-          setNewItemName("");
-        });
+          .patch(`http://localhost:3001/goods/${oldItem.id}`, newItem)
+          .then(response => {
+            console.log("update response data", response.data);
+            setGoods(goods.map(item => item.id !== oldItem.id ? item : response.data));
+            setNewItemCode("");
+            setNewItemName("");
+          });
       } else {
         setNewItemCode("");
         setNewItemName("");
@@ -147,7 +148,7 @@ function App() {
 
   const changeUi = (e) => {
     setUiMode(e.target.textContent);
-    
+
   }
 
   // console.log("-----");
@@ -161,14 +162,14 @@ function App() {
   }
 
 
- // console.log("Goods in filtered warehouse: ", goodsInWarehouse);
+  // console.log("Goods in filtered warehouse: ", goodsInWarehouse);
 
 
   const goodsToShow = goods.filter(item =>
     item.name.toLowerCase().includes(itemsFilter.toLowerCase())
     || item.code.toLowerCase().includes(itemsFilter.toLowerCase())
   ).filter(item => categoryFilter.includes(parseInt(item.category)));
- // console.log("Filtered goods: ", goodsToShow);
+  // console.log("Filtered goods: ", goodsToShow);
 
 
   const renderUiMode = (uiMode) => {
@@ -182,9 +183,14 @@ function App() {
           <Items itemsInWarehouse={goodsInWarehouse} filteredItems={goodsToShow} categories={categories} increaseStock={increaseItemsInStock} decreaseStock={decreaseItemsInStock} />
         </div>)
     } else if (uiMode === "Laskenta") {
-      return <AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
-        newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
-        categories={categories} />
+      return (
+        <div>
+          <AddNewItemForm addItem={addItem} newItemCode={newItemCode} handleCodeChange={handleCodeChange}
+            newItemName={newItemName} handleNameChange={handleNameChange} handleCategoryChange={handleCategoryChange}
+            categories={categories} />
+          <AllItems items={goods} categories={categories} />
+        </div>
+      )
     } else if (uiMode === "Hallinta") {
       return <div></div>
     } else {
@@ -195,8 +201,8 @@ function App() {
   return (
     <div className="app">
       <h1>Varastonhallinta</h1>
-      <TopButtons changeUi={changeUi} currentUI={uiMode}/>
-      
+      <TopButtons changeUi={changeUi} currentUI={uiMode} />
+
 
       {renderUiMode(uiMode)}
 
