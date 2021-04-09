@@ -60,22 +60,22 @@ const App = () => {
         <ToolBar>
           <Typography variant='h6'>Varastonhallinta</Typography>
 
+          <Typography id='selected-user'>{user.name} selected</Typography>
           <FormControl className={classes.formControl}>
             <InputLabel id='user-select-label'>User</InputLabel>
             <Select
               labelId='user-select-label'
               id='user-select'
+              defaultValue=''
               onChange={getUser} >
               <MenuItem value={"John"}>John</MenuItem>
               <MenuItem value={"Jane"}>Jane</MenuItem>
             </Select>
           </FormControl>
-
         </ToolBar>
-
       </AppBar>
 
-      <Typography>{user.name} selected</Typography>
+      
     </div>
   );
 }
