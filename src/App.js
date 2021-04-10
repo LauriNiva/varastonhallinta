@@ -2,6 +2,7 @@ import './App.css';
 import 'fontsource-roboto';
 import React, { useState, useEffect } from 'react';
 import userService from './services/users';
+import storagesService from './services/storages';
 
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -22,7 +23,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import getStorages from './services/storages';
+
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -56,7 +57,7 @@ const StoragesBar = ({ storages, selectedStorage, setSelectedStorage }) => {
   )
 };
 
-const StorageItemsTable = ({ storage }) => {
+const StorageItemsTable = ({ storage, handleStockDecreaseClick, handleStockIncreaseClick }) => {
 
 
   if (storage === undefined) return <div></div>;
@@ -79,14 +80,18 @@ const StorageItemsTable = ({ storage }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, i) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.code}
               </TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell align="right">{row.category}</TableCell>
-              <TableCell align="right">{row.stock}</TableCell>
+              <TableCell align="right">
+                <Button id={`decrease-${i}`} onClick={handleStockDecreaseClick}>-</Button>
+                {row.stock}
+                <Button id={`increase-${i}`} onClick={handleStockIncreaseClick}>+</Button>
+                </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -95,13 +100,13 @@ const StorageItemsTable = ({ storage }) => {
   )
 };
 
-const Storages = ({ storages }) => {
+const Storages = ({ storages, selectedStorage, setSelectedStorage, handleStockDecreaseClick, handleStockIncreaseClick }) => {
 
-  const [selectedStorage, setSelectedStorage] = useState(0);
+  
   return (
     <div>
       <StoragesBar storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage} />
-      <StorageItemsTable storage={storages[selectedStorage]} />
+      <StorageItemsTable storage={storages[selectedStorage]} handleStockDecreaseClick={handleStockDecreaseClick}  handleStockIncreaseClick={handleStockIncreaseClick} />
     </div>
   )
 }
@@ -115,10 +120,11 @@ const App = () => {
 
   const [user, setUser] = useState({ name: 'none' });
   const [storages, setStorages] = useState([]);
+  const [selectedStorage, setSelectedStorage] = useState(0);
 
   useEffect(() => {
     if (user._id) {
-      getStorages(user._id)
+      storagesService.getStorages(user._id)
         .then(storages => {
           setStorages(storages);
         })
@@ -131,6 +137,22 @@ const App = () => {
         setUser(res);
       });
   };
+
+  const handleStockDecreaseClick =(e) => {
+    console.log(e.currentTarget);
+  }
+
+
+  const handleStockIncreaseClick =(e) => {
+    console.log(e.currentTarget);
+
+
+    const storageId = storages[selectedStorage]._id;
+    const itemIndex = e.currentTarget.id.slice(-1);
+    const newStock = storages[selectedStorage].items[itemIndex].stock + 1;
+    
+    storagesService.updateStorage(storageId, itemIndex, newStock);
+  }
 
 
   return (
@@ -153,8 +175,10 @@ const App = () => {
           </FormControl>
         </ToolBar>
       </AppBar>
+
       <Paper className='body-container'>
-        <Storages storages={storages} />
+        <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
+        handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />
       </Paper>
 
     </div>
