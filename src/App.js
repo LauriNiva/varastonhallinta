@@ -140,6 +140,12 @@ const App = () => {
 
   const handleStockDecreaseClick =(e) => {
     console.log(e.currentTarget);
+
+    const storageId = storages[selectedStorage]._id;
+    const itemIndex = e.currentTarget.id.slice(-1);
+    const newStock = -1;
+    
+    storagesService.updateStorage(storageId, itemIndex, newStock);
   }
 
 
@@ -149,7 +155,7 @@ const App = () => {
 
     const storageId = storages[selectedStorage]._id;
     const itemIndex = e.currentTarget.id.slice(-1);
-    const newStock = storages[selectedStorage].items[itemIndex].stock + 1;
+    const newStock = 1;
     
     storagesService.updateStorage(storageId, itemIndex, newStock);
   }
