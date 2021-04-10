@@ -39,11 +39,6 @@ const useStyles = makeStyles((theme) => ({
 
 const StoragesBar = ({ storages, selectedStorage, setSelectedStorage }) => {
 
-  if (storages.length <= selectedStorage) {
-    setSelectedStorage(0)
-    return <div> </div>;
-  };
-
   const handleChange = (e, newTab) => {
     setSelectedStorage(newTab);
   };
@@ -66,7 +61,7 @@ const StorageItemsTable = ({ storage, handleStockDecreaseClick, handleStockIncre
     return { code, name, category, stock };
   };
 
-  const rows = storage.items.map(item => createData('itemcode', item.name, item.category, item.stock));
+  const rows = storage.items.map(item => createData(item.itemcode, item.name, item.category, item.stock));
 
   return (
     <TableContainer component={Paper}>
@@ -123,6 +118,8 @@ const App = () => {
   const [selectedStorage, setSelectedStorage] = useState(0);
 
   useEffect(() => {
+    setSelectedStorage(0);
+
     if (user._id) {
       storagesService.getStorages(user._id)
         .then(storages => {
@@ -139,25 +136,24 @@ const App = () => {
   };
 
   const handleStockDecreaseClick =(e) => {
-    console.log(e.currentTarget);
 
     const storageId = storages[selectedStorage]._id;
     const itemIndex = e.currentTarget.id.slice(-1);
     const newStock = -1;
     
-    storagesService.updateStorage(storageId, itemIndex, newStock);
+    storagesService.updateStorage(storageId, itemIndex, newStock)
+    .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
   }
 
 
   const handleStockIncreaseClick =(e) => {
-    console.log(e.currentTarget);
-
 
     const storageId = storages[selectedStorage]._id;
     const itemIndex = e.currentTarget.id.slice(-1);
     const newStock = 1;
     
-    storagesService.updateStorage(storageId, itemIndex, newStock);
+    storagesService.updateStorage(storageId, itemIndex, newStock)
+    .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
   }
 
 
