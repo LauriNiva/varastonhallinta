@@ -11,7 +11,6 @@ const getStorages = (id) => {
 
 const updateStorage = (storageId, itemIndex, newStock) => {
   const info = {itemIndex, newStock};
-  console.log(info);
   const request = axios.put(`${baseURL}/stock/${storageId}`, info);
   return request.then(res => res.data);
 };
