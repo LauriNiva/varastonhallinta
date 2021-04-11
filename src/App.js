@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import userService from './services/users';
 import storagesService from './services/storages';
 
+import Nav from './components/Nav';
+
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -22,19 +24,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import itemsService from './services/items';
+import { BrowserRouter as Router, Route , Switch } from 'react-router-dom';
 
 
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    marginLeft: 'auto',
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+
+
 
 
 const StoragesBar = ({ storages, selectedStorage, setSelectedStorage }) => {
@@ -86,7 +82,7 @@ const StorageItemsTable = ({ storage, handleStockDecreaseClick, handleStockIncre
                 <Button id={`decrease-${i}`} onClick={handleStockDecreaseClick}>-</Button>
                 {row.stock}
                 <Button id={`increase-${i}`} onClick={handleStockIncreaseClick}>+</Button>
-                </TableCell>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -97,24 +93,41 @@ const StorageItemsTable = ({ storage, handleStockDecreaseClick, handleStockIncre
 
 const Storages = ({ storages, selectedStorage, setSelectedStorage, handleStockDecreaseClick, handleStockIncreaseClick }) => {
 
-  
+
   return (
     <div>
       <StoragesBar storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage} />
-      <StorageItemsTable storage={storages[selectedStorage]} handleStockDecreaseClick={handleStockDecreaseClick}  handleStockIncreaseClick={handleStockIncreaseClick} />
+      <StorageItemsTable storage={storages[selectedStorage]} handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />
     </div>
   )
-}
+};
+
+const Items = ({ items }) => {
+
+  const createData = (code, name, category, stock) => {
+    return { code, name, category, stock };
+  };
+
+  const rows = items.map(item => createData(item.itemcode, item.name, item.category, item.stock));
+
+
+  return (
+    <div>
+      {items.map(item => <div>{item.name}</div>)}
+    </div>
+  )
+};
 
 
 
 const App = () => {
 
 
-  const classes = useStyles();
+
 
   const [user, setUser] = useState({ name: 'none' });
   const [storages, setStorages] = useState([]);
+  const [items, setItems] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(0);
 
   useEffect(() => {
@@ -124,7 +137,10 @@ const App = () => {
       storagesService.getStorages(user._id)
         .then(storages => {
           setStorages(storages);
-        })
+        });
+
+      itemsService.getUserItems(user._id)
+        .then(items => setItems(items));
     }
   }, [user]);
 
@@ -135,55 +151,45 @@ const App = () => {
       });
   };
 
-  const handleStockDecreaseClick =(e) => {
+  const handleStockDecreaseClick = (e) => {
 
     const storageId = storages[selectedStorage]._id;
     const itemIndex = e.currentTarget.id.slice(-1);
     const newStock = -1;
-    
+
     storagesService.updateStorage(storageId, itemIndex, newStock)
-    .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
+      .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
   }
 
 
-  const handleStockIncreaseClick =(e) => {
+  const handleStockIncreaseClick = (e) => {
 
     const storageId = storages[selectedStorage]._id;
     const itemIndex = e.currentTarget.id.slice(-1);
     const newStock = 1;
-    
+
     storagesService.updateStorage(storageId, itemIndex, newStock)
-    .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
+      .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
   }
 
 
   return (
+    <Router>
     <div className="App">
-      <AppBar position='fixed'>
-        <ToolBar>
-          <Typography variant='h6'>Varastonhallinta</Typography>
 
-          <Typography id='selected-user'>{user.name} selected</Typography>
-          <FormControl className={classes.formControl}>
-            <InputLabel id='user-select-label'>User</InputLabel>
-            <Select
-              labelId='user-select-label'
-              id='user-select'
-              defaultValue=''
-              onChange={getUser} >
-              <MenuItem value={"John"}>John</MenuItem>
-              <MenuItem value={"Jane"}>Jane</MenuItem>
-            </Select>
-          </FormControl>
-        </ToolBar>
-      </AppBar>
-
+      <Nav getUser={ getUser } />
       <Paper className='body-container'>
-        <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
-        handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />
+        <Switch>
+          <Route path='/' exact  render={(props) => <Storages {...props} storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
+          handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />} />
+          <Route path='/hallinta' render={(props) => <Items {...props} items={items} />} />
+          </Switch>
       </Paper>
 
+      
+
     </div>
+    </Router>
   );
 }
 
