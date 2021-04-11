@@ -30,11 +30,6 @@ const StorageItemsTable = ({ storage, handleStockDecreaseClick, handleStockIncre
 
   if (storage === undefined) return <div></div>;
 
-  const createData = (code, name, category, stock) => {
-    return { code, name, category, stock };
-  };
-
-  const rows = storage.items.map(item => createData(item.itemcode, item.name, item.category, item.stock));
 
   return (
     <TableContainer component={Paper}>
@@ -48,10 +43,10 @@ const StorageItemsTable = ({ storage, handleStockDecreaseClick, handleStockIncre
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, i) => (
+          {storage.items.map((row, i) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
-                {row.code}
+                {row.itemcode}
               </TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell align="right">{row.category}</TableCell>
