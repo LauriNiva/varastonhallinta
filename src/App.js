@@ -8,30 +8,12 @@ import storagesService from './services/storages';
 import itemsService from './services/items';
 
 import Nav from './components/Nav';
-import Storages from './components/Storages'
-
+import Storages from './components/Storages';
+import Items from './components/Items';
 
 import Paper from '@material-ui/core/Paper';
 
 
-
-
-
-const Items = ({ items }) => {
-
-  const createData = (code, name, category, stock) => {
-    return { code, name, category, stock };
-  };
-
-  const rows = items.map(item => createData(item.itemcode, item.name, item.category, item.stock));
-
-
-  return (
-    <div>
-      {items.map(item => <div>{item.name}</div>)}
-    </div>
-  )
-};
 
 
 
@@ -64,25 +46,21 @@ const App = () => {
       });
   };
 
-  const handleStockDecreaseClick = (e) => {
-
+  const handleStockClick = (e, newStock) => {
     const storageId = storages[selectedStorage]._id;
     const itemIndex = e.currentTarget.id.slice(-1);
-    const newStock = -1;
 
     storagesService.updateStorage(storageId, itemIndex, newStock)
       .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
+  };
+
+  const handleStockDecreaseClick = (e) => {
+    const currentStock = e.currentTarget.nextElementSibling.textContent;
+    if(currentStock > 0) handleStockClick(e, -1);  
   }
 
-
   const handleStockIncreaseClick = (e) => {
-
-    const storageId = storages[selectedStorage]._id;
-    const itemIndex = e.currentTarget.id.slice(-1);
-    const newStock = 1;
-
-    storagesService.updateStorage(storageId, itemIndex, newStock)
-      .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
+    handleStockClick(e, 1);
   }
 
 

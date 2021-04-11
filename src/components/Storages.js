@@ -57,7 +57,7 @@ const StorageItemsTable = ({ storage, handleStockDecreaseClick, handleStockIncre
               <TableCell align="right">{row.category}</TableCell>
               <TableCell align="right">
                 <Button id={`decrease-${i}`} onClick={handleStockDecreaseClick}>-</Button>
-                {row.stock}
+                <span>{row.stock}</span>
                 <Button id={`increase-${i}`} onClick={handleStockIncreaseClick}>+</Button>
               </TableCell>
             </TableRow>
