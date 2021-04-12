@@ -24,6 +24,8 @@ const App = () => {
   const [storages, setStorages] = useState([]);
   const [items, setItems] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(0);
+  const [newItemName, setNewItemName] = useState('');
+  const [newItemCategory, setNewItemCategory] = useState('');
 
   useEffect(() => {
     setSelectedStorage(0);

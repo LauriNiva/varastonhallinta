@@ -1,6 +1,9 @@
+import '../App.css';
+
 import React from 'react';
 import { AppBar, FormControl, InputLabel, makeStyles, MenuItem, Select, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { findByLabelText } from '@testing-library/dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -8,10 +11,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     marginLeft: 'auto',
+    
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  title: {
+   flexGrow: 1,
+  },
+  navStyle: {
+    color: 'white'
+  }
+  
   
 }));
 
@@ -20,21 +31,23 @@ const Nav = ({ getUser }) => {
 
   const classes = useStyles();
 
-  const navStyle = {
-    color: 'white'
-  }
+
 
   return (
     <AppBar position='fixed'>
       <Toolbar>
-        <Typography variant='h6'>Varastonhallinta</Typography>
+        <Typography className={classes.title} variant='h6'>Varastonhallinta</Typography>
 
-        <ul>
-          <Link style={navStyle} to='/'>
-            <li>Varastot</li>
+        <ul className='nav-links'>
+          <Link className={classes.navStyle} to='/'>
+            <li>
+            <Typography>Varastot</Typography>
+              </li>
           </Link>
-          <Link style={navStyle} to='/hallinta'>
-            <li>Hallinta</li>
+          <Link className={classes.navStyle} to='/hallinta'>
+            <li>
+            <Typography>Hallinta</Typography>
+              </li>
           </Link>
         </ul>
 
