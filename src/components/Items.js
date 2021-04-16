@@ -13,7 +13,6 @@ import NewItemForm from './NewItemForm';
 
 const Items = ({ items, submitNewItem }) => {
 
-  console.log('Items: ', submitNewItem);
 
   return (
     <div>

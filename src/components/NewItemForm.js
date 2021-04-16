@@ -4,16 +4,14 @@ import React from 'react';
 
 const NewItemForm = ({submitNewItem}) => {
 
-  console.log('Form: ', submitNewItem);
 
   return (
     <div>
       <Formik
         initialValues={{ itemcode: '', name: '', category: '' }}
         onSubmit={(data) => {
-          console.log('Submit: ', submitNewItem);
           submitNewItem(data);
-          console.log('submit:', data);
+          console.log('submit Item:', data);
         }}>
         {() => (
           <Form>

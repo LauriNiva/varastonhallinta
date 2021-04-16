@@ -65,9 +65,11 @@ const App = () => {
   }
 
   const submitNewItem = (newItem) => {
-    console.log('newItem in submitFunction: ', newItem);
     itemsService.createNewItem(newItem)
-    .then(savedItem => setItems(items.concat(savedItem)));
+    .then(savedItem => {
+      setItems(items.concat(savedItem))
+      usersService.addUserItem(user._id, savedItem)
+    })
   }
 
 
