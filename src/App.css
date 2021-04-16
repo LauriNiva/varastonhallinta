@@ -21,6 +21,7 @@
 .nav-links a{
   list-style: none;
   text-decoration: none;
+  margin-left: 15px;
 }
 
 .nav-links a :hover{
