@@ -9,12 +9,12 @@ const getStorages = (id) => {
   return request.then(res => res.data);
 };
 
-const updateStorage = (storageId, itemIndex, newStock) => {
+const updateStorageStock = (storageId, itemIndex, newStock) => {
   const info = {itemIndex, newStock};
   const request = axios.put(`${baseURL}/stock/${storageId}`, info);
   return request.then(res => res.data);
 };
 
-const storagesService = { getStorages, updateStorage };
+const storagesService = { getStorages, updateStorageStock };
 
 export default storagesService;

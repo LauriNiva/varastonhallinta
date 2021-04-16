@@ -3,7 +3,6 @@ import '../App.css';
 import React from 'react';
 import { AppBar, FormControl, InputLabel, makeStyles, MenuItem, Select, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { findByLabelText } from '@testing-library/dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -11,19 +10,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     marginLeft: 'auto',
-    
+
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
   title: {
-   flexGrow: 1,
+    flexGrow: 1,
   },
   navStyle: {
     color: 'white'
   }
-  
-  
+
+
 }));
 
 
@@ -41,13 +40,18 @@ const Nav = ({ getUser }) => {
         <ul className='nav-links'>
           <Link className={classes.navStyle} to='/'>
             <li>
-            <Typography>Varastot</Typography>
-              </li>
+              <Typography>Etusivu</Typography>
+            </li>
           </Link>
-          <Link className={classes.navStyle} to='/hallinta'>
+          <Link className={classes.navStyle} to='/tuotteet'>
             <li>
-            <Typography>Hallinta</Typography>
-              </li>
+              <Typography>Tuotteet</Typography>
+            </li>
+          </Link>
+          <Link className={classes.navStyle} to='/varastot'>
+            <li>
+              <Typography>Varastot</Typography>
+            </li>
           </Link>
         </ul>
 

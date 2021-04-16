@@ -3,7 +3,7 @@ import 'fontsource-roboto';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import userService from './services/users';
+import usersService from './services/users';
 import storagesService from './services/storages';
 import itemsService from './services/items';
 
@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 
 
 
+
 const App = () => {
 
 
@@ -24,8 +25,6 @@ const App = () => {
   const [storages, setStorages] = useState([]);
   const [items, setItems] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(0);
-  const [newItemName, setNewItemName] = useState('');
-  const [newItemCategory, setNewItemCategory] = useState('');
 
   useEffect(() => {
     setSelectedStorage(0);
@@ -42,7 +41,7 @@ const App = () => {
   }, [user]);
 
   const getUser = (e) => {
-    userService(e.target.value)
+    usersService.getUser(e.target.value)
       .then(res => {
         setUser(res);
       });
@@ -52,7 +51,7 @@ const App = () => {
     const storageId = storages[selectedStorage]._id;
     const itemIndex = e.currentTarget.id.slice(-1);
 
-    storagesService.updateStorage(storageId, itemIndex, newStock)
+    storagesService.updateStorageStock(storageId, itemIndex, newStock)
       .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
   };
 
@@ -65,6 +64,12 @@ const App = () => {
     handleStockClick(e, 1);
   }
 
+  const submitNewItem = (newItem) => {
+    console.log('newItem in submitFunction: ', newItem);
+    itemsService.createNewItem(newItem)
+    .then(savedItem => setItems(items.concat(savedItem)));
+  }
+
 
   return (
     <Router>
@@ -72,10 +77,12 @@ const App = () => {
 
         <Nav getUser={getUser} />
         <Paper className='body-container'>
+          
           <Switch>
             <Route path='/' exact render={(props) => <Storages {...props} storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
               handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />} />
-            <Route path='/hallinta' render={(props) => <Items {...props} items={items} />} />
+            <Route path='/tuotteet' render={(props) => <Items {...props} items={items} submitNewItem={submitNewItem} />} />
+            <Route path='/varastot' render={(props) => <Items {...props} items={items} />} />
           </Switch>
         </Paper>
 

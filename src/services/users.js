@@ -7,4 +7,11 @@ const getUser = (name) => {
   return request.then(res => res.data);
 }
 
-export default getUser;
+const addUserItem = (id, item) => {
+  const request = axios.put(`${baseURL}/${id}`, item);
+  return request.then(res => res.data);
+}
+
+const usersService = { getUser, addUserItem };
+
+export default usersService;

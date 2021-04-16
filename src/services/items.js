@@ -9,6 +9,11 @@ const getUserItems = (id) => {
   return request.then(res => res.data);
 };
 
-const itemsService = { getUserItems };
+const createNewItem = (newItem) => {
+  const request = axios.post(`${baseURL}/single/`, newItem);
+  return request.then(res => res.data);
+}
+
+const itemsService = { getUserItems, createNewItem };
 
 export default itemsService;

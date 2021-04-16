@@ -8,11 +8,16 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
+import NewItemForm from './NewItemForm';
 
-const Items = ({ items }) => {
 
+const Items = ({ items, submitNewItem }) => {
+
+  console.log('Items: ', submitNewItem);
 
   return (
+    <div>
+    <NewItemForm submitNewItem={submitNewItem} />
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
@@ -39,6 +44,7 @@ const Items = ({ items }) => {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   )
 };
 
