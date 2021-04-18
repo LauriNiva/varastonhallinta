@@ -89,10 +89,16 @@ const App = () => {
         <Paper className='body-container'>
 
           <Switch>
-            <Route path='/' exact render={(props) => <Storages {...props} storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
-              handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />} />
-            <Route path='/tuotteet' render={(props) => <Items {...props} items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />} />
-            <Route path='/varastot' render={(props) => <Items {...props} items={items} />} />
+            <Route path='/'>
+              <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
+                handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />
+            </Route>
+            <Route path='/tuotteet'>
+              <Items items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
+            </Route>
+            <Route path='/varastot'>
+
+            </Route>
           </Switch>
         </Paper>
 
