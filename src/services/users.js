@@ -7,11 +7,16 @@ const getUser = (name) => {
   return request.then(res => res.data);
 }
 
-const addUserItem = (id, item) => {
-  const request = axios.put(`${baseURL}/${id}`, item);
+const addUserItem = (id, itemId) => {
+  const request = axios.put(`${baseURL}/${id}`, itemId);
   return request.then(res => res.data);
 }
 
-const usersService = { getUser, addUserItem };
+const deleteUserItem = (id, itemId) => {
+  const request = axios.delete(`${baseURL}/items/${id}/${itemId}`);
+  return request;
+}
+
+const usersService = { getUser, addUserItem, deleteUserItem };
 
 export default usersService;

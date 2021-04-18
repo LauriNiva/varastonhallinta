@@ -57,7 +57,7 @@ const App = () => {
 
   const handleStockDecreaseClick = (e) => {
     const currentStock = e.currentTarget.nextElementSibling.textContent;
-    if(currentStock > 0) handleStockClick(e, -1);  
+    if (currentStock > 0) handleStockClick(e, -1);
   }
 
   const handleStockIncreaseClick = (e) => {
@@ -66,10 +66,18 @@ const App = () => {
 
   const submitNewItem = (newItem) => {
     itemsService.createNewItem(newItem)
-    .then(savedItem => {
-      setItems(items.concat(savedItem))
-      usersService.addUserItem(user._id, savedItem)
-    })
+      .then(savedItem => {
+        setItems(items.concat(savedItem))
+        usersService.addUserItem(user._id, savedItem)
+      })
+  }
+
+  const deleteItem = (e) => {
+    const itemId = e.currentTarget.id.slice(4);
+
+    itemsService.deleteItem(itemId)
+      .then(usersService.deleteUserItem(user._id, itemId))
+      .then(setItems(items.filter(item => item._id !== itemId)));
   }
 
 
@@ -79,11 +87,11 @@ const App = () => {
 
         <Nav getUser={getUser} />
         <Paper className='body-container'>
-          
+
           <Switch>
             <Route path='/' exact render={(props) => <Storages {...props} storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
               handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />} />
-            <Route path='/tuotteet' render={(props) => <Items {...props} items={items} submitNewItem={submitNewItem} />} />
+            <Route path='/tuotteet' render={(props) => <Items {...props} items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />} />
             <Route path='/varastot' render={(props) => <Items {...props} items={items} />} />
           </Switch>
         </Paper>

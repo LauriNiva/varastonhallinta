@@ -14,6 +14,12 @@ const createNewItem = (newItem) => {
   return request.then(res => res.data);
 }
 
-const itemsService = { getUserItems, createNewItem };
+const deleteItem = (id) => {
+  const request = axios.delete(`${baseURL}/single/${id}`);
+  return request.then(res => res.data);
+
+}
+
+const itemsService = { getUserItems, createNewItem, deleteItem };
 
 export default itemsService;

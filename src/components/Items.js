@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import NewItemForm from './NewItemForm';
 
 
-const Items = ({ items, submitNewItem }) => {
+const Items = ({ items, submitNewItem, deleteItem }) => {
 
 
   return (
@@ -36,7 +36,7 @@ const Items = ({ items, submitNewItem }) => {
               <TableCell>{row.name}</TableCell>
               <TableCell align="right">{row.category}</TableCell>
               <TableCell align="right">
-                <Button className='btn-delete-item' id={`delete-${row.itemcode}`} onClick={() => alert("del")}>-</Button>
+                <Button className='btn-delete-item' id={`del-${row._id}`} onClick={deleteItem}>-</Button>
               </TableCell>
             </TableRow>
           ))}
