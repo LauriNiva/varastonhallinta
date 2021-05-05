@@ -43,14 +43,9 @@ const Nav = ({ getUser }) => {
               <Typography>Etusivu</Typography>
             </li>
           </Link>
-          <Link className={classes.navStyle} to='/tuotteet'>
+          <Link className={classes.navStyle} to='/hallinta'>
             <li>
-              <Typography>Tuotteet</Typography>
-            </li>
-          </Link>
-          <Link className={classes.navStyle} to='/varastot'>
-            <li>
-              <Typography>Varastot</Typography>
+              <Typography>Hallinta</Typography>
             </li>
           </Link>
         </ul>

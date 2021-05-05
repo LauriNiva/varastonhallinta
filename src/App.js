@@ -12,6 +12,7 @@ import Storages from './components/Storages';
 import Items from './components/Items';
 
 import Paper from '@material-ui/core/Paper';
+import Options from './components/Options';
 
 
 
@@ -89,15 +90,15 @@ const App = () => {
         <Paper className='body-container'>
 
           <Switch>
-            <Route path='/'>
+            <Route path='/' exact>
               <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
                 handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />
             </Route>
-            <Route path='/tuotteet'>
+            {/* <Route path='/tuotteet'>
               <Items items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
-            </Route>
-            <Route path='/varastot'>
-
+            </Route> */}
+            <Route path='/hallinta'>
+              <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
             </Route>
           </Switch>
         </Paper>
