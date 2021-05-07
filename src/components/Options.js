@@ -1,6 +1,6 @@
-import { AppBar, Tab, Tabs, Toolbar } from '@material-ui/core';
+import { Tab, Tabs, Toolbar } from '@material-ui/core';
 import React from 'react';
-import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Link, Route, useRouteMatch } from 'react-router-dom';
 import Items from './Items';
 
 
