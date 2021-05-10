@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import NewItemForm from './NewItemForm';
 
 
-const Items = ({ items, submitNewItem, deleteItem }) => {
+const ItemOptions = ({ items, submitNewItem, deleteItem }) => {
 
 
   return (
@@ -47,4 +47,4 @@ const Items = ({ items, submitNewItem, deleteItem }) => {
   )
 };
 
-export default Items;
+export default ItemOptions;

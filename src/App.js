@@ -9,7 +9,7 @@ import itemsService from './services/items';
 
 import Nav from './components/Nav';
 import Storages from './components/Storages';
-import Items from './components/Items';
+import Items from './components/ItemOptions';
 
 import Paper from '@material-ui/core/Paper';
 import Options from './components/Options';

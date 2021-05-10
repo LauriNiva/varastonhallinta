@@ -2,7 +2,7 @@ import { Tab, Tabs, Toolbar } from '@material-ui/core';
 import React from 'react';
 import { Link, Route, useRouteMatch } from 'react-router-dom';
 import StorageOptions from './StorageOptions';
-import Items from './Items';
+import ItemOptions from './ItemOptions';
 
 
 
@@ -41,7 +41,7 @@ const Options = ({ items, submitNewItem, deleteItem, submitNewStorage }) => {
       <OptionsBar />
       
           <Route path={`${path}/tuotteet`}>
-            <Items items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
+            <ItemOptions items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
           </Route>
           <Route path={`${path}/varastot`}>
             <StorageOptions submitNewStorage={submitNewStorage}/>
