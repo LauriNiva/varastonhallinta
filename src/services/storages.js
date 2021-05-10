@@ -15,6 +15,12 @@ const updateStorageStock = (storageId, itemIndex, newStock) => {
   return request.then(res => res.data);
 };
 
-const storagesService = { getStorages, updateStorageStock };
+const createNewStorage = (newStorage) => {
+  const request = axios.post(`${baseURL}/single`, newStorage);
+  return request.then(res => res.data);
+};
+
+
+const storagesService = { getStorages, updateStorageStock, createNewStorage };
 
 export default storagesService;

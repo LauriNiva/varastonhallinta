@@ -68,8 +68,8 @@ const App = () => {
   const submitNewItem = (newItem) => {
     itemsService.createNewItem(newItem)
       .then(savedItem => {
-        setItems(items.concat(savedItem))
-        usersService.addUserItem(user._id, savedItem)
+        setItems(items.concat(savedItem));
+        usersService.addUserItem(user._id, savedItem);
       })
   }
 
@@ -80,6 +80,15 @@ const App = () => {
       .then(usersService.deleteUserItem(user._id, itemId))
       .then(setItems(items.filter(item => item._id !== itemId)));
   }
+
+  const submitNewStorage = (newStorage) => {
+    storagesService.createNewStorage(newStorage)
+    .then(savedStorage => {
+      setStorages(storages.concat(savedStorage));
+      usersService.addUserStorage(user._id, savedStorage);
+    })
+  }
+  
 
 
   return (
