@@ -17,7 +17,7 @@ const NewItemForm = ({submitNewItem}) => {
           <Form>
             
             <Field name='itemcode' placeholder='Tuotekoodi' type='input' as={TextField}></Field>
-            <Field name='name' placeholder='Nimi' type='input' as={TextField}></Field>
+            <Field name='name' placeholder='Tuote' type='input' as={TextField}></Field>
             <Field name='category' placeholder='Kategoria' type='input' as={TextField}></Field>
             <Button type='submit' variant='contained' color='primary'>Lisää</Button>
           </Form>
