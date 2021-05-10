@@ -107,7 +107,7 @@ const App = () => {
               <Items items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
             </Route> */}
             <Route path='/hallinta'>
-              <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
+              <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} submitNewStorage={submitNewStorage} />
             </Route>
           </Switch>
         </Paper>
