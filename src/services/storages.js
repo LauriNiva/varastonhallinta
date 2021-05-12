@@ -20,7 +20,13 @@ const createNewStorage = (newStorage) => {
   return request.then(res => res.data);
 };
 
+const deleteStorage = (storageId) => {
+  const request = axios.delete(`${baseURL}/single/${storageId}`);
+  return request.then(res => res.data);
+}
 
-const storagesService = { getStorages, updateStorageStock, createNewStorage };
+
+
+const storagesService = { getStorages, updateStorageStock, createNewStorage, deleteStorage };
 
 export default storagesService;

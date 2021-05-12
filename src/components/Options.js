@@ -31,7 +31,7 @@ const OptionsBar = () => {
 };
 
 
-const Options = ({ items, submitNewItem, deleteItem, submitNewStorage }) => {
+const Options = ({ items, submitNewItem, deleteItem, storages, submitNewStorage, deleteStorage }) => {
 
   const { path } = useRouteMatch();
 
@@ -44,7 +44,7 @@ const Options = ({ items, submitNewItem, deleteItem, submitNewStorage }) => {
             <ItemOptions items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
           </Route>
           <Route path={`${path}/varastot`}>
-            <StorageOptions submitNewStorage={submitNewStorage}/>
+            <StorageOptions storages={storages} submitNewStorage={submitNewStorage} deleteStorage={deleteStorage} />
           </Route>
           <Route path='hallinta/kategoriat'>
 

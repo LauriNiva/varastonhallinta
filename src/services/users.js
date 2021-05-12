@@ -22,6 +22,12 @@ const addUserStorage = (id, storageId) => {
   return request.then(res => res.data);
 }
 
-const usersService = { getUser, addUserItem, deleteUserItem, addUserStorage };
+const deleteUserStorage = (id, storageId) => {
+  const request = axios.delete(`${baseURL}/storages/${id}/${storageId}`);
+  return request;
+}
+
+
+const usersService = { getUser, addUserItem, deleteUserItem, addUserStorage, deleteUserStorage };
 
 export default usersService;

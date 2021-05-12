@@ -9,7 +9,6 @@ import itemsService from './services/items';
 
 import Nav from './components/Nav';
 import Storages from './components/Storages';
-import Items from './components/ItemOptions';
 
 import Paper from '@material-ui/core/Paper';
 import Options from './components/Options';
@@ -73,9 +72,7 @@ const App = () => {
       })
   }
 
-  const deleteItem = (e) => {
-    const itemId = e.currentTarget.id.slice(4);
-
+  const deleteItem = (itemId) => {
     itemsService.deleteItem(itemId)
       .then(usersService.deleteUserItem(user._id, itemId))
       .then(setItems(items.filter(item => item._id !== itemId)));
@@ -86,8 +83,15 @@ const App = () => {
     .then(savedStorage => {
       setStorages(storages.concat(savedStorage));
       usersService.addUserStorage(user._id, savedStorage);
-    })
+    });
+  };
+
+  const deleteStorage = (storageId) => {
+    storagesService.deleteStorage(storageId)
+    .then(usersService.deleteUserStorage(user._id, storageId))
+    .then(setStorages(storages.filter(storage => storage._id !== storageId)));
   }
+  
   
 
 
@@ -103,11 +107,9 @@ const App = () => {
               <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
                 handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />
             </Route>
-            {/* <Route path='/tuotteet'>
-              <Items items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
-            </Route> */}
             <Route path='/hallinta'>
-              <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} submitNewStorage={submitNewStorage} />
+              <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} 
+              storages={storages} submitNewStorage={submitNewStorage} deleteStorage={deleteStorage}/>
             </Route>
           </Switch>
         </Paper>
