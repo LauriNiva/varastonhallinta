@@ -89,7 +89,10 @@ const App = () => {
   const deleteStorage = (storageId) => {
     storagesService.deleteStorage(storageId)
     .then(usersService.deleteUserStorage(user._id, storageId))
-    .then(setStorages(storages.filter(storage => storage._id !== storageId)));
+    .then(()=>{
+      setStorages(storages.filter(storage => storage._id !== storageId));
+      setSelectedStorage(0);
+    });
   }
   
   
