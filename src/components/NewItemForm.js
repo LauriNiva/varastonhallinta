@@ -1,12 +1,18 @@
-import { Button, MenuItem, Select, TextField } from '@material-ui/core';
-import { Field, Form, Formik } from 'formik';
+import { Button, MenuItem, Paper, Select, TextField, Typography } from '@material-ui/core';
+import { Field, Form, Formik, useField } from 'formik';
 import React from 'react';
+
+// const MySelect = ({ label, ...props }) => {
+//   const [field] = useField(props);
+//   return <TextField {...field} select />
+// }
 
 const NewItemForm = ({submitNewItem, categories}) => {
 
 
   return (
-    <div>
+    <Paper elevation={2} className='new-item-form' >
+      <Typography variant='h6'>Lisää uusi tuote</Typography>
       <Formik
         initialValues={{ itemcode: '', name: '', category: '' }}
         onSubmit={(data) => {
@@ -16,16 +22,16 @@ const NewItemForm = ({submitNewItem, categories}) => {
         {() => (
           <Form>
             
-            <Field name='itemcode' placeholder='Tuotekoodi' type='input' as={TextField}></Field>
-            <Field name='name' placeholder='Tuote' type='input' as={TextField}></Field>
-            <Field name='category' placeholder='Kategoria' type='select' as={Select}>
+            <Field name='itemcode'  type='input' label='Tuotekoodi' as={TextField}></Field>
+            <Field name='name' label='Tuote' type='input' as={TextField}></Field>
+            <Field name='category' label='Kategoria' type='select' as={Select}>
               {categories.map(category => <MenuItem key={category._id} value={category.name}>{category.name}</MenuItem> )}
             </Field>
             <Button type='submit' variant='contained' color='primary'>Lisää</Button>
           </Form>
         )}
       </Formik>
-    </div>
+    </Paper>
   );
 };
 
