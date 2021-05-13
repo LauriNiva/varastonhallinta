@@ -17,7 +17,7 @@ function StorageOptions({storages, submitNewStorage, deleteStorage}) {
         </TableHead>
         <TableBody>
           {storages.map(row => (
-            <TableRow key={row.name}>
+            <TableRow key={row._id}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
