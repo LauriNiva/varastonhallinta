@@ -29,7 +29,7 @@ const ItemOptions = ({ items, submitNewItem, deleteItem }) => {
         </TableHead>
         <TableBody>
           {items.map(row => (
-            <TableRow key={row.name}>
+            <TableRow key={row._id}>
               <TableCell component="th" scope="row">
                 {row.itemcode}
               </TableCell>
