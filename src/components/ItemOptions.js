@@ -11,12 +11,12 @@ import Button from '@material-ui/core/Button';
 import NewItemForm from './NewItemForm';
 
 
-const ItemOptions = ({ items, submitNewItem, deleteItem }) => {
+const ItemOptions = ({ items, submitNewItem, deleteItem, categories }) => {
 
 
   return (
     <div>
-    <NewItemForm submitNewItem={submitNewItem} />
+    <NewItemForm submitNewItem={submitNewItem} categories={categories}/>
     <TableContainer component={Paper}>
       <Table>
         <TableHead>

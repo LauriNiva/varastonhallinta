@@ -42,7 +42,7 @@ const Options = ({ items, submitNewItem, deleteItem, storages, submitNewStorage,
       <OptionsBar />
       
           <Route path={`${path}/tuotteet`}>
-            <ItemOptions items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} />
+            <ItemOptions items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} categories={categories} />
           </Route>
           <Route path={`${path}/varastot`}>
             <StorageOptions storages={storages} submitNewStorage={submitNewStorage} deleteStorage={deleteStorage} />
