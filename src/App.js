@@ -12,6 +12,7 @@ import Storages from './components/Storages';
 
 import Paper from '@material-ui/core/Paper';
 import Options from './components/Options';
+import categoriesService from './services/categories';
 
 
 
@@ -24,6 +25,7 @@ const App = () => {
   const [user, setUser] = useState({ name: 'none' });
   const [storages, setStorages] = useState([]);
   const [items, setItems] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(0);
 
   useEffect(() => {
@@ -37,6 +39,9 @@ const App = () => {
 
       itemsService.getUserItems(user._id)
         .then(items => setItems(items));
+
+        categoriesService.getCategories(user._id)
+        .then(categories => setCategories(categories));
     }
   }, [user]);
 
@@ -95,6 +100,13 @@ const App = () => {
     });
   }
   
+  const submitNewCategory = (newCategory) => {
+    categoriesService.createNewCategory(newCategory)
+    .then(savedCategory => {
+      setCategories(categories.concat(savedCategory));
+      usersService.addUserCategory(user._id, savedCategory);
+    });
+  };
   
 
 
@@ -112,7 +124,8 @@ const App = () => {
             </Route>
             <Route path='/hallinta'>
               <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} 
-              storages={storages} submitNewStorage={submitNewStorage} deleteStorage={deleteStorage}/>
+              storages={storages} submitNewStorage={submitNewStorage} deleteStorage={deleteStorage}
+              categories={categories} submitNewCategory={submitNewCategory} />
             </Route>
           </Switch>
         </Paper>

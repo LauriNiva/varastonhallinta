@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, Route, useRouteMatch } from 'react-router-dom';
 import StorageOptions from './StorageOptions';
 import ItemOptions from './ItemOptions';
+import CategoryOptions from './CategoryOptions';
 
 
 
@@ -31,7 +32,7 @@ const OptionsBar = () => {
 };
 
 
-const Options = ({ items, submitNewItem, deleteItem, storages, submitNewStorage, deleteStorage }) => {
+const Options = ({ items, submitNewItem, deleteItem, storages, submitNewStorage, deleteStorage, categories, submitNewCategory}) => {
 
   const { path } = useRouteMatch();
 
@@ -46,8 +47,8 @@ const Options = ({ items, submitNewItem, deleteItem, storages, submitNewStorage,
           <Route path={`${path}/varastot`}>
             <StorageOptions storages={storages} submitNewStorage={submitNewStorage} deleteStorage={deleteStorage} />
           </Route>
-          <Route path='hallinta/kategoriat'>
-
+          <Route path={`${path}/kategoriat`}>
+            <CategoryOptions categories={categories} submitNewCategory={submitNewCategory} />
           </Route>
         
 
