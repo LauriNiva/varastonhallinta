@@ -12,7 +12,12 @@ const createNewCategory = (newCategory) => {
   return request.then(res => res.data);
 }
 
+const deleteCategory  = (categoreyId) => {
+  const request = axios.delete(`${baseURL}/single/${categoreyId}`);
+  return request.then(res => res.data);
+}
 
-const categoriesService = { getCategories, createNewCategory };
+
+const categoriesService = { getCategories, createNewCategory, deleteCategory };
 
 export default categoriesService;

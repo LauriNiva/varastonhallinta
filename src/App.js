@@ -107,6 +107,13 @@ const App = () => {
       usersService.addUserCategory(user._id, savedCategory);
     });
   };
+
+  const deleteCategory = (categoryId) => {
+    categoriesService.deleteCategory(categoryId)
+    .then(usersService.deleteUserCategory(user._id, categoryId))
+    .then(() => setCategories(categories.filter(category => category._id !== categoryId)));
+  };
+  
   
 
 
@@ -125,7 +132,7 @@ const App = () => {
             <Route path='/hallinta'>
               <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} 
               storages={storages} submitNewStorage={submitNewStorage} deleteStorage={deleteStorage}
-              categories={categories} submitNewCategory={submitNewCategory} />
+              categories={categories} submitNewCategory={submitNewCategory} deleteCategory={deleteCategory} />
             </Route>
           </Switch>
         </Paper>
