@@ -55,21 +55,12 @@ const App = () => {
 
   const handleStockClick = (itemId, change) => {
     console.log('stockclick: ', itemId, change)
-    // const storageId = storages[selectedStorage]._id;
-    // const itemIndex = e.currentTarget.id.slice(-1);
 
     storagesService.updateStorageStock(storages[selectedStorage]._id, itemId, change)
     .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
   };
 
-  // const handleStockDecreaseClick = (id) => {
-  //   const currentStock = e.currentTarget.nextElementSibling.textContent;
-  //   if (currentStock > 0) handleStockClick(e, -1);
-  // }
 
-  // const handleStockIncreaseClick = (id) => {
-  //   handleStockClick(e, 1);
-  // }
 
   const submitNewItem = (newItem) => {
     itemsService.createNewItem(newItem)
@@ -130,11 +121,10 @@ const App = () => {
 
         <Nav getUser={getUser} />
         <Paper className='body-container'>
-
+          {user.storages ?
           <Switch>
             <Route path='/' exact>
               <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
-                // handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} 
                 handleStockClick={handleStockClick} items={items} addItemToStorage={addItemToStorage}/>
             </Route>
             <Route path='/hallinta'>
@@ -143,6 +133,8 @@ const App = () => {
               categories={categories} submitNewCategory={submitNewCategory} deleteCategory={deleteCategory} />
             </Route>
           </Switch>
+          : <div>Choose a user</div>
+          }
         </Paper>
 
       </div>
