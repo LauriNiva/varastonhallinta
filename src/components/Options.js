@@ -1,4 +1,4 @@
-import { Tab, Tabs, Toolbar } from '@material-ui/core';
+import { Toolbar } from '@material-ui/core';
 import React from 'react';
 import { Link, Route, useRouteMatch } from 'react-router-dom';
 import StorageOptions from './StorageOptions';
