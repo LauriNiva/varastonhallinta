@@ -27,6 +27,7 @@ const App = () => {
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(0);
+  
 
   useEffect(() => {
     setSelectedStorage(0);
@@ -52,22 +53,23 @@ const App = () => {
       });
   };
 
-  const handleStockClick = (e, newStock) => {
-    const storageId = storages[selectedStorage]._id;
-    const itemIndex = e.currentTarget.id.slice(-1);
+  const handleStockClick = (itemId, change) => {
+    console.log('stockclick: ', itemId, change)
+    // const storageId = storages[selectedStorage]._id;
+    // const itemIndex = e.currentTarget.id.slice(-1);
 
-    storagesService.updateStorageStock(storageId, itemIndex, newStock)
-      .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storageId ? storage : updatedStorage)));
+    storagesService.updateStorageStock(storages[selectedStorage]._id, itemId, change)
+    .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
   };
 
-  const handleStockDecreaseClick = (e) => {
-    const currentStock = e.currentTarget.nextElementSibling.textContent;
-    if (currentStock > 0) handleStockClick(e, -1);
-  }
+  // const handleStockDecreaseClick = (id) => {
+  //   const currentStock = e.currentTarget.nextElementSibling.textContent;
+  //   if (currentStock > 0) handleStockClick(e, -1);
+  // }
 
-  const handleStockIncreaseClick = (e) => {
-    handleStockClick(e, 1);
-  }
+  // const handleStockIncreaseClick = (id) => {
+  //   handleStockClick(e, 1);
+  // }
 
   const submitNewItem = (newItem) => {
     itemsService.createNewItem(newItem)
@@ -114,6 +116,11 @@ const App = () => {
     .then(() => setCategories(categories.filter(category => category._id !== categoryId)));
   };
   
+  const addItemToStorage = (itemId) => {
+    const storageId = storages[selectedStorage]._id;
+    const item = items.find(item => item._id === itemId);
+    storagesService.addItemToStorage(storageId, item);
+  }
   
 
 
@@ -127,7 +134,8 @@ const App = () => {
           <Switch>
             <Route path='/' exact>
               <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
-                handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} />
+                // handleStockDecreaseClick={handleStockDecreaseClick} handleStockIncreaseClick={handleStockIncreaseClick} 
+                handleStockClick={handleStockClick} items={items} addItemToStorage={addItemToStorage}/>
             </Route>
             <Route path='/hallinta'>
               <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} 
