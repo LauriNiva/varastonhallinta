@@ -6,6 +6,16 @@
   background-color: rgb(100, 237, 146);
 }
 
+.storages-top-buttons-container{
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.add-new-form{
+  padding: 8px;
+}
+
 .body-container{
   max-width: 1000px;
   margin:auto;

@@ -1,17 +1,11 @@
-import { Button, MenuItem, Paper, Select, TextField, Typography } from '@material-ui/core';
+import { Button, MenuItem, Select, TextField, Typography } from '@material-ui/core';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 
-// const MySelect = ({ label, ...props }) => {
-//   const [field] = useField(props);
-//   return <TextField {...field} select />
-// }
-
 const NewItemForm = ({submitNewItem, categories}) => {
 
-
   return (
-    <Paper elevation={2} className='new-item-form' >
+    <div className='add-new-form'>
       <Typography variant='h6'>Lisää uusi tuote</Typography>
       <Formik
         initialValues={{ itemcode: '', name: '', category: '' }}
@@ -19,8 +13,7 @@ const NewItemForm = ({submitNewItem, categories}) => {
           submitNewItem(data);
         }}>
         {() => (
-          <Form>
-            
+          <Form> 
             <Field name='itemcode'  type='input' label='Tuotekoodi' as={TextField}></Field>
             <Field name='name' label='Tuote' type='input' as={TextField}></Field>
             <Field name='category' label='Kategoria' type='select' as={Select}>
@@ -30,7 +23,7 @@ const NewItemForm = ({submitNewItem, categories}) => {
           </Form>
         )}
       </Formik>
-    </Paper>
+    </div>
   );
 };
 

@@ -1,10 +1,11 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Typography } from '@material-ui/core';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 
 function NewCategoryForm({submitNewCategory}) {
   return (
-    <div>
+    <div className='add-new-form'>
+      <Typography variant='h6'>Lisää uusi kategoria</Typography>
       <Formik
       initialValues={{name: ''}}
         onSubmit={(data) => {
