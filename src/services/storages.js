@@ -10,7 +10,7 @@ const getStorages = (id) => {
 };
 
 const updateStorageStock = (id, itemId, change) => {
-  const request = axios.put(`${baseURL}/stock/${id}/${itemId}/${change}`);
+  const request = axios.put(`${baseURL}/${id}/${itemId}/${change}`);
   return request.then(res => res.data);
 };
 
@@ -20,17 +20,20 @@ const createNewStorage = (newStorage) => {
 };
 
 const deleteStorage = (storageId) => {
-  const request = axios.delete(`${baseURL}/single/${storageId}`);
+  const request = axios.delete(`${baseURL}/${storageId}`);
   return request.then(res => res.data);
 };
 
-const addItemToStorage = (storageId, newItem) => {
-  const request = axios.post(`${baseURL}/${storageId}/items`, newItem);
+const addItemsToStorage = (storageId, arrayOfItemsToAdd) => {
+  const request = axios.post(`${baseURL}/${storageId}`, arrayOfItemsToAdd);
   return request.then(res => res.data);
 };
 
+const deleteItemFromStorage = (storageId, itemId) => {
+  const request = axios.delete(`${baseURL}/${storageId}/${itemId}`);
+};
 
 
-const storagesService = { getStorages, updateStorageStock, createNewStorage, deleteStorage, addItemToStorage };
+const storagesService = { getStorages, updateStorageStock, createNewStorage, deleteStorage, addItemsToStorage };
 
 export default storagesService;

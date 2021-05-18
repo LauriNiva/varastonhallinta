@@ -56,8 +56,8 @@ const App = () => {
   const handleStockClick = (itemId, change) => {
     console.log('stockclick: ', itemId, change)
 
-    storagesService.updateStorageStock(storages[selectedStorage]._id, itemId, change)
-    .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
+    storagesService.updateStorageStock(storages[selectedStorage]._id, itemId, change)    
+.then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
   };
 
 
@@ -107,12 +107,17 @@ const App = () => {
     .then(() => setCategories(categories.filter(category => category._id !== categoryId)));
   };
   
-  const addItemToStorage = (itemId) => {
+  const linkItemsToStorage = (listOfItemIds) => {
     const storageId = storages[selectedStorage]._id;
-    const item = items.find(item => item._id === itemId);
-    storagesService.addItemToStorage(storageId, item);
-  }
+    const arrayOfItemsToAdd = items.filter(item => listOfItemIds.includes(item._id))
+    arrayOfItemsToAdd.forEach(item => item.stock = 0);
+    storagesService.addItemsToStorage(storageId, arrayOfItemsToAdd)
+    .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
+  };
   
+  const removeItemFromStorage = (itemId) => {
+    console.log(`itemId`, itemId)
+  };
 
 
   return (
@@ -125,7 +130,8 @@ const App = () => {
           <Switch>
             <Route path='/' exact>
               <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
-                handleStockClick={handleStockClick} items={items} addItemToStorage={addItemToStorage}/>
+                handleStockClick={handleStockClick} items={items} linkItemsToStorage={linkItemsToStorage}
+                removeItemFromStorage={removeItemFromStorage}/>
             </Route>
             <Route path='/hallinta'>
               <Options items={items} submitNewItem={submitNewItem} deleteItem={deleteItem} 

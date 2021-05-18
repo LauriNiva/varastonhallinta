@@ -27,7 +27,7 @@ const StoragesBar = ({ storages, selectedStorage, setSelectedStorage }) => {
   )
 };
 
-const StorageItemsTable = ({ storage, handleStockClick }) => {
+const StorageItemsTable = ({ storage, handleStockClick, removeItemFromStorage }) => {
 
 
   if (storage === undefined) return <div></div>;
@@ -43,6 +43,7 @@ const StorageItemsTable = ({ storage, handleStockClick }) => {
             <TableCell>Tuote</TableCell>
             <TableCell align="right">Kategoria</TableCell>
             <TableCell align="right">Määrä</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -55,9 +56,12 @@ const StorageItemsTable = ({ storage, handleStockClick }) => {
               <TableCell>{row.name}</TableCell>
               <TableCell align="right">{row.category}</TableCell>
               <TableCell align="right">
-                <Button id={`decrease-${row.id}`} onClick={() => handleStockClick(row.id, -1)}>-</Button>
+                <Button id={`decrease-${row._id}`} onClick={() => handleStockClick(row._id, -1)}>-</Button>
                 <span>{row.stock}</span>
-                <Button id={`increase-${row.id}`} onClick={() => handleStockClick(row.id, 1)}>+</Button>
+                <Button id={`increase-${row._id}`} onClick={() => handleStockClick(row._id, 1)}>+</Button>
+              </TableCell>
+              <TableCell>
+                <Button variant='contained' color='secondary' onClick={()=>removeItemFromStorage(row._id)}>poista</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -67,23 +71,57 @@ const StorageItemsTable = ({ storage, handleStockClick }) => {
   )
 };
 
-const AddItemDialog = ({ itemDialogOpen, handleItemClickOpen, handleItemClose, storage, items }) => {
-  
+const AddItemDialog = ({ storage, items, linkItemsToStorage }) => {
 
-
+  const [itemDialogOpen, setItemDialogOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState({});
   const [itemsAvailable, setItemsAvailable] = useState([]);
 
   
-
-  useEffect (() =>{
-    if(storage !== undefined){
-    const itemIdsInStorage = storage.items.map(item => item.id);
-    setItemsAvailable(items.filter(item => !itemIdsInStorage.includes(item._id)))
-    }
-  },[items,storage])
-
   
+
+  useEffect(() => {
+    if (storage !== undefined) {
+      const itemIdsInStorage = storage.items.map(item => item._id);
+      setItemsAvailable(items.filter(item => !itemIdsInStorage.includes(item._id)));
+    }
+  }, [itemDialogOpen, items, storage]);
+
+  useEffect(() => {
+    const sItems = {};
+    itemsAvailable.forEach(item => sItems[item._id] = false )
+    setSelectedItems(sItems);
+  }, [itemsAvailable]);
+
+  const handleItemClickOpen = () => {
+    setItemDialogOpen(true);
+  };
+
+  const handleItemClose = () => {
+    setItemDialogOpen(false);
+  }
+
+  const handleClick = (id) => {
+    const currentCheckedItems = {...selectedItems};
+    currentCheckedItems[id] = !currentCheckedItems[id];
+    setSelectedItems(currentCheckedItems);
+
+  }
+
+  const handleAddClick = () => {
+    handleItemClose();
+    const itemsToAdd = [];
+    for (let id in selectedItems) {
+      if (selectedItems[id])itemsToAdd.push(id);
+    };
+    linkItemsToStorage(itemsToAdd);
+  }
+  
+  
+  const handleCheckboxChange = (itemId) => {
+    console.log(`checkbox changed: `, itemId)
+  }
+
 
   if (storage === undefined) return <div></div>;
 
@@ -101,7 +139,7 @@ const AddItemDialog = ({ itemDialogOpen, handleItemClickOpen, handleItemClose, s
             margin="dense"
             id="name"
             label="Hae lisättävä tuote tai kategoria"
-            type="email"
+            type="email"//??
             fullWidth
           />
 
@@ -118,9 +156,9 @@ const AddItemDialog = ({ itemDialogOpen, handleItemClickOpen, handleItemClose, s
               </TableHead>
               <TableBody>
                 {itemsAvailable.map((row) => (
-                  <TableRow key={row._id} onClick={() => handleClick(row._id)} >
+                  <TableRow key={row._id} onClick={() => handleClick(row._id,selectedItems)} >
                     <TableCell component="th" scope="row">
-                      <Checkbox id={`checkbox-${row._id}`} color="primary" />
+                      <Checkbox id={`checkbox-${row._id}`} checked={selectedItems[row._id]} color="primary" />
                     </TableCell>
                     <TableCell>{row.itemcode}</TableCell>
                     <TableCell >{row.name}</TableCell>
@@ -131,14 +169,12 @@ const AddItemDialog = ({ itemDialogOpen, handleItemClickOpen, handleItemClose, s
             </Table>
           </TableContainer>
 
-
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleItemClose} color="secondary">
             Takaisin
           </Button>
-          <Button onClick={handleItemClose} color="primary">
+          <Button onClick={handleAddClick} color="primary">
             Lisää
           </Button>
         </DialogActions>
@@ -147,38 +183,16 @@ const AddItemDialog = ({ itemDialogOpen, handleItemClickOpen, handleItemClose, s
   )
 }
 
-const handleClick = (id) => {
-  console.log('click ', id)
-}
-
-const handleCheckboxChange = (itemId) => {
-  console.log(`itemId`, itemId)
-}
 
 
-
-
-const Storages = ({ storages, selectedStorage, setSelectedStorage, handleStockClick, items, addItemToStorage }) => {
-
-  const [itemDialogOpen, setItemDialogOpen] = useState(false);
-
-  const handleItemClickOpen = () => {
-    setItemDialogOpen(true);
-  };
-
-  const handleItemClose = () => {
-    setItemDialogOpen(false);
-  }
-
+const Storages = ({ storages, selectedStorage, setSelectedStorage, handleStockClick, items, linkItemsToStorage, removeItemFromStorage }) => {
 
   return (
 
     <div>
       <StoragesBar storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage} />
-      <AddItemDialog storage={storages[selectedStorage]} items={items}
-        itemDialogOpen={itemDialogOpen} handleItemClose={handleItemClose} handleItemClickOpen={handleItemClickOpen} />
-      <StorageItemsTable storage={storages[selectedStorage]}
-        handleStockClick={handleStockClick} />
+      <AddItemDialog storage={storages[selectedStorage]} items={items} linkItemsToStorage={linkItemsToStorage} />
+      <StorageItemsTable storage={storages[selectedStorage]} handleStockClick={handleStockClick} removeItemFromStorage={removeItemFromStorage} />
     </div>
   )
 };
