@@ -9,7 +9,6 @@ function NewStorageForm({submitNewStorage}) {
       initialValues={{name: ''}}
         onSubmit={(data) => {
           submitNewStorage(data);
-          console.log('submit Item:', data);
         }}>
         {() => (
           <Form>

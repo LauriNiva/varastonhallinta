@@ -9,7 +9,6 @@ function NewCategoryForm({submitNewCategory}) {
       initialValues={{name: ''}}
         onSubmit={(data) => {
           submitNewCategory(data);
-          console.log('submit Item:', data);
         }}>
         {() => (
           <Form>

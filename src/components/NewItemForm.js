@@ -17,7 +17,6 @@ const NewItemForm = ({submitNewItem, categories}) => {
         initialValues={{ itemcode: '', name: '', category: '' }}
         onSubmit={(data) => {
           submitNewItem(data);
-          console.log('submit Item:', data);
         }}>
         {() => (
           <Form>

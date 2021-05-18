@@ -54,8 +54,6 @@ const App = () => {
   };
 
   const handleStockClick = (itemId, change) => {
-    console.log('stockclick: ', itemId, change)
-
     storagesService.updateStorageStock(storages[selectedStorage]._id, itemId, change)
       .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
   };

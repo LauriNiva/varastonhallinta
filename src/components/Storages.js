@@ -118,9 +118,6 @@ const AddItemDialog = ({ storage, items, linkItemsToStorage }) => {
   }
   
   
-  const handleCheckboxChange = (itemId) => {
-    console.log(`checkbox changed: `, itemId)
-  }
 
 
   if (storage === undefined) return <div></div>;
