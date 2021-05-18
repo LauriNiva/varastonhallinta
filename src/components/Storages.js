@@ -29,6 +29,12 @@ const StoragesBar = ({ storages, selectedStorage, setSelectedStorage }) => {
 
 const StorageItemsTable = ({ storage, handleStockClick, removeItemFromStorage }) => {
 
+  const [deleteItems, setDeleteItems] = useState(false);
+
+  const handleDeleteToggleClick = () => {
+    setDeleteItems(!deleteItems);
+  }
+
 
   if (storage === undefined) return <div></div>;
 
@@ -43,7 +49,7 @@ const StorageItemsTable = ({ storage, handleStockClick, removeItemFromStorage })
             <TableCell>Tuote</TableCell>
             <TableCell align="right">Kategoria</TableCell>
             <TableCell align="right">Määrä</TableCell>
-            <TableCell></TableCell>
+            <TableCell><Button variant={deleteItems ? 'contained' : 'outlined'} color='secondary' onClick={handleDeleteToggleClick}>Poista</Button></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -61,7 +67,7 @@ const StorageItemsTable = ({ storage, handleStockClick, removeItemFromStorage })
                 <Button id={`increase-${row._id}`} onClick={() => handleStockClick(row._id, 1)}>+</Button>
               </TableCell>
               <TableCell>
-                <Button variant='contained' color='secondary' onClick={()=>removeItemFromStorage(row._id)}>poista</Button>
+                <Button variant='contained' color='secondary' disabled={!deleteItems} onClick={()=>removeItemFromStorage(row._id)}>-</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -71,12 +77,12 @@ const StorageItemsTable = ({ storage, handleStockClick, removeItemFromStorage })
   )
 };
 
-const AddItemDialog = ({ storage, items, linkItemsToStorage }) => {
+const AddItemsDialog = ({ storage, items, linkItemsToStorage, }) => {
 
   const [itemDialogOpen, setItemDialogOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState({});
   const [itemsAvailable, setItemsAvailable] = useState([]);
-
+  
   
   
 
@@ -118,13 +124,19 @@ const AddItemDialog = ({ storage, items, linkItemsToStorage }) => {
   }
   
   
+  
+  
 
 
   if (storage === undefined) return <div></div>;
 
   return (
     <div>
-      <Button variant='contained' color='primary' onClick={handleItemClickOpen}>Lisää tuote</Button>
+      <div className='storages-top-buttons-container'>
+        <Button variant='contained' color='primary' onClick={handleItemClickOpen}>Lisää tuote</Button>
+        
+      </div>
+      
       <Dialog open={itemDialogOpen} onClose={handleItemClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Lisää tuote</DialogTitle>
         <DialogContent>
@@ -183,12 +195,13 @@ const AddItemDialog = ({ storage, items, linkItemsToStorage }) => {
 
 
 const Storages = ({ storages, selectedStorage, setSelectedStorage, handleStockClick, items, linkItemsToStorage, removeItemFromStorage }) => {
+  
 
   return (
 
     <div>
       <StoragesBar storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage} />
-      <AddItemDialog storage={storages[selectedStorage]} items={items} linkItemsToStorage={linkItemsToStorage} />
+      <AddItemsDialog storage={storages[selectedStorage]} items={items} linkItemsToStorage={linkItemsToStorage} />
       <StorageItemsTable storage={storages[selectedStorage]} handleStockClick={handleStockClick} removeItemFromStorage={removeItemFromStorage} />
     </div>
   )
