@@ -14,6 +14,8 @@ import Paper from '@material-ui/core/Paper';
 import Options from './components/Options';
 import categoriesService from './services/categories';
 
+import { ReactComponent as Loginimg } from './img/login.svg';
+import { Typography } from '@material-ui/core';
 
 
 
@@ -143,7 +145,10 @@ const App = () => {
                   categories={categories} submitNewCategory={submitNewCategory} deleteCategory={deleteCategory} />
               </Route>
             </Switch>
-            : <div>Choose a user</div>
+            : <div>
+              <Typography variant='h4'>Valitse käyttäjä</Typography>
+              <Loginimg />
+              </div>
           }
         </Paper>
 
