@@ -3,6 +3,7 @@ import '../App.css';
 import React from 'react';
 import { AppBar, FormControl, InputLabel, makeStyles, MenuItem, Select, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { ReactComponent as Logo } from '../img/logo.svg';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +36,8 @@ const Nav = ({ getUser }) => {
   return (
     <AppBar position='fixed'>
       <Toolbar>
-        <Typography className={classes.title} variant='h6'>Varastonhallinta</Typography>
+        <Logo style = {{ width: "40px", height:"40px"}} />
+        
 
         <ul className='nav-links'>
           <Link className={classes.navStyle} to='/'>
