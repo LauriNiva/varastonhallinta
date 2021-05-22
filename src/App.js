@@ -147,7 +147,7 @@ const App = () => {
             </Switch>
             : <div>
               <Typography variant='h4'>Valitse käyttäjä</Typography>
-              <Loginimg />
+              <Loginimg style = {{ width: "1000px"}}/>
               </div>
           }
         </Paper>
