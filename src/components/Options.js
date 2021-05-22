@@ -1,6 +1,6 @@
-import { Toolbar } from '@material-ui/core';
+import { Tab, Tabs } from '@material-ui/core';
 import React from 'react';
-import { Link, Route, useRouteMatch } from 'react-router-dom';
+import { Link, Route, useHistory, useRouteMatch } from 'react-router-dom';
 import StorageOptions from './StorageOptions';
 import ItemOptions from './ItemOptions';
 import CategoryOptions from './CategoryOptions';
@@ -10,23 +10,16 @@ import CategoryOptions from './CategoryOptions';
 const OptionsBar = () => {
 
   const { url } = useRouteMatch();
+  const { location } = useHistory();
 
 
   return (
     <div className='optionstab'>
-
-      <Toolbar>
-        <Link to={`${url}/tuotteet`}>Tuotteet</Link>
-        <Link to={`${url}/varastot`}>Varastot</Link>
-        <Link to={`${url}/kategoriat`}>Kategoriat</Link>
-      </Toolbar>
-
-      {/* <Tabs >
-      <Tab label='Tuotteet' />
-        <Link to={`${url}/tuotteet`}><Tab label='Tuotteet' /></Link>
-        <Link to={`${url}/varastot`}><Tab label='Varastot' /></Link>
-        <Link to={`${url}/kategoriat`}><Tab label='Kategoriat' /></Link> 
-      </Tabs> */}
+      <Tabs value={location.pathname}>
+        <Tab label='Tuotteet' value='/hallinta/tuotteet' to={`${url}/tuotteet`} component={Link} />
+        <Tab label='Varastot' value='/hallinta/varastot' to={`${url}/varastot`} component={Link} />
+        <Tab label='Kategoriat' value='/hallinta/kategoriat' to={`${url}/kategoriat`} component={Link} />
+      </Tabs>
     </div>
   )
 };
