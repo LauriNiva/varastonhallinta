@@ -9,8 +9,9 @@ const NewItemForm = ({submitNewItem, categories}) => {
       <Typography variant='h6'>Lisää uusi tuote</Typography>
       <Formik
         initialValues={{ itemcode: '', name: '', category: '' }}
-        onSubmit={(data) => {
+        onSubmit={(data, actions) => {
           submitNewItem(data);
+          actions.resetForm();
         }}>
         {() => (
           <Form> 

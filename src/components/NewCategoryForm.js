@@ -1,15 +1,16 @@
 import { Button, TextField, Typography } from '@material-ui/core';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik} from 'formik';
 import React from 'react';
 
-function NewCategoryForm({submitNewCategory}) {
+function NewCategoryForm({ submitNewCategory }) {
   return (
     <div className='add-new-form'>
       <Typography variant='h6'>Lisää uusi kategoria</Typography>
       <Formik
-      initialValues={{name: ''}}
-        onSubmit={(data) => {
+        initialValues={{ name: '' }}
+        onSubmit={(data, actions) => {
           submitNewCategory(data);
+          actions.resetForm();
         }}>
         {() => (
           <Form>
@@ -18,7 +19,7 @@ function NewCategoryForm({submitNewCategory}) {
           </Form>
         )}
       </Formik>
-      
+
     </div>
   )
 };

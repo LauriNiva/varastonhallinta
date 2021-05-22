@@ -8,8 +8,9 @@ function NewStorageForm({submitNewStorage}) {
       <Typography variant='h6'>Lisää uusi varasto</Typography>
       <Formik
       initialValues={{name: ''}}
-        onSubmit={(data) => {
+        onSubmit={(data, actions) => {
           submitNewStorage(data);
+          actions.resetForm();
         }}>
         {() => (
           <Form>
