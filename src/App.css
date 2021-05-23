@@ -11,6 +11,9 @@
   justify-content: flex-end;
   padding: 5px;
 }
+.optionstab{
+  background-color: rgb(100, 237, 146);
+}
 
 .add-new-form{
   padding: 8px;

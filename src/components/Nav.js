@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     marginLeft: 'auto',
-
+    color: 'white'
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -53,7 +53,7 @@ const Nav = ({ getUser }) => {
         </ul>
 
         <FormControl className={classes.formControl}>
-          <InputLabel id='user-select-label'>User</InputLabel>
+          <InputLabel className={classes.navStyle} id='user-select-label'>User</InputLabel>
           <Select
             labelId='user-select-label'
             id='user-select'
