@@ -22,7 +22,7 @@ function CategoryOptions({ categories, submitNewCategory, deleteCategory }) {
                 {row.name}
               </TableCell>
               <TableCell align="right">
-              <Button color="secondary" variant="contained" className='btn-delete-item' id={`del-${row._id}`} onClick={() => deleteCategory(row._id)}>-</Button>
+              <Button color="secondary" variant="contained" className='btn-delete-item' id={`del-${row._id}`} onClick={() => deleteCategory(row)}>-</Button>
               </TableCell>
             </TableRow>
           ))}

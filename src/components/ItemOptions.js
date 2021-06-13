@@ -36,7 +36,7 @@ const ItemOptions = ({ items, submitNewItem, deleteItem, categories }) => {
               <TableCell>{row.name}</TableCell>
               <TableCell align="right">{row.category}</TableCell>
               <TableCell align="right">
-                <Button color="secondary" variant="contained" className='btn-delete-item' id={`del-${row._id}`} onClick={()=>deleteItem(row._id)}>-</Button>
+                <Button color="secondary" variant="contained" className='btn-delete-item' id={`del-${row._id}`} onClick={()=>deleteItem(row)}>-</Button>
               </TableCell>
             </TableRow>
           ))}

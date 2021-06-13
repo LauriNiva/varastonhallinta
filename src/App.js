@@ -70,10 +70,12 @@ const App = () => {
       })
   }
 
-  const deleteItem = (itemId) => {
-    itemsService.deleteItem(itemId)
-      .then(usersService.deleteUserItem(user._id, itemId))
-      .then(setItems(items.filter(item => item._id !== itemId)));
+  const deleteItem = (itemToDelete) => {
+    if (window.confirm(`Poista tuote ${itemToDelete.name}?`)) {
+      itemsService.deleteItem(itemToDelete._id)
+        .then(usersService.deleteUserItem(user._id, itemToDelete._id))
+        .then(setItems(items.filter(item => item._id !== itemToDelete._id)));
+    }
   }
 
   const submitNewStorage = (newStorage) => {
@@ -84,14 +86,16 @@ const App = () => {
       });
   };
 
-  const deleteStorage = (storageId) => {
-    storagesService.deleteStorage(storageId)
-      .then(usersService.deleteUserStorage(user._id, storageId))
-      .then(() => {
-        setStorages(storages.filter(storage => storage._id !== storageId));
-        setSelectedStorage(0);
-      });
-  }
+  const deleteStorage = (storageToDelete) => {
+    if (window.confirm(`Poista varasto ${storageToDelete.name} ?`)) {
+      storagesService.deleteStorage(storageToDelete._id)
+        .then(usersService.deleteUserStorage(user._id, storageToDelete._id))
+        .then(() => {
+          setStorages(storages.filter(storage => storage._id !== storageToDelete._id));
+          setSelectedStorage(0);
+        });
+    }
+  };
 
   const submitNewCategory = (newCategory) => {
     categoriesService.createNewCategory(newCategory)
@@ -101,10 +105,12 @@ const App = () => {
       });
   };
 
-  const deleteCategory = (categoryId) => {
-    categoriesService.deleteCategory(categoryId)
-      .then(usersService.deleteUserCategory(user._id, categoryId))
-      .then(() => setCategories(categories.filter(category => category._id !== categoryId)));
+  const deleteCategory = (categoryToDelete) => {
+    if (window.confirm(`Poista kategoria ${categoryToDelete.name} ?`)) {
+      categoriesService.deleteCategory(categoryToDelete._id)
+        .then(usersService.deleteUserCategory(user._id, categoryToDelete._id))
+        .then(() => setCategories(categories.filter(category => category._id !== categoryToDelete._id)));
+    }
   };
 
   const linkItemsToStorage = (listOfItemIds) => {
@@ -119,7 +125,7 @@ const App = () => {
     const storageId = storages[selectedStorage]._id;
     storagesService.deleteItemFromStorage(storageId, itemId)
       .then(() => {
-        const updatedStorage = {...storages[selectedStorage]};
+        const updatedStorage = { ...storages[selectedStorage] };
         updatedStorage.items = updatedStorage.items.filter(item => item._id !== itemId);
         setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage));
       });
@@ -147,8 +153,8 @@ const App = () => {
             </Switch>
             : <div>
               <Typography variant='h4'>Valitse käyttäjä</Typography>
-              <Loginimg style = {{ width: "1000px"}}/>
-              </div>
+              <Loginimg style={{ width: "1000px" }} />
+            </div>
           }
         </Paper>
 

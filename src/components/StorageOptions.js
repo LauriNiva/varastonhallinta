@@ -22,7 +22,7 @@ function StorageOptions({storages, submitNewStorage, deleteStorage}) {
                 {row.name}
               </TableCell>
               <TableCell align="right">
-                <Button color="secondary" variant="contained" className='btn-delete-item' id={`del-${row._id}`} onClick={() => deleteStorage(row._id)}>-</Button>
+                <Button color="secondary" variant="contained" className='btn-delete-item' id={`del-${row._id}`} onClick={() => deleteStorage(row)}>-</Button>
               </TableCell>
             </TableRow>
           ))}
