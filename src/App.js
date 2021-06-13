@@ -121,14 +121,16 @@ const App = () => {
       .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
   };
 
-  const removeItemFromStorage = (itemId) => {
-    const storageId = storages[selectedStorage]._id;
-    storagesService.deleteItemFromStorage(storageId, itemId)
-      .then(() => {
-        const updatedStorage = { ...storages[selectedStorage] };
-        updatedStorage.items = updatedStorage.items.filter(item => item._id !== itemId);
-        setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage));
-      });
+  const removeItemFromStorage = (itemToRemove) => {
+    if (window.confirm(`Poistetaanko ${itemToRemove.name} varastosta ${storages[selectedStorage].name}?`)) {
+      const storageId = storages[selectedStorage]._id;
+      storagesService.deleteItemFromStorage(storageId, itemToRemove._id)
+        .then(() => {
+          const updatedStorage = { ...storages[selectedStorage] };
+          updatedStorage.items = updatedStorage.items.filter(item => item._id !== itemToRemove._id);
+          setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage));
+        });
+    }
   };
 
 

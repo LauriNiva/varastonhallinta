@@ -67,7 +67,7 @@ const StorageItemsTable = ({ storage, handleStockClick, removeItemFromStorage })
                 <Button id={`increase-${row._id}`} onClick={() => handleStockClick(row._id, 1)}>+</Button>
               </TableCell>
               <TableCell>
-                <Button variant='contained' color='secondary' disabled={!deleteItems} onClick={()=>removeItemFromStorage(row._id)}>-</Button>
+                <Button variant='contained' color='secondary' disabled={!deleteItems} onClick={()=>removeItemFromStorage(row)}>-</Button>
               </TableCell>
             </TableRow>
           ))}
