@@ -16,6 +16,7 @@ import categoriesService from './services/categories';
 
 import { ReactComponent as Loginimg } from './img/login.svg';
 import { Typography } from '@material-ui/core';
+import LoginForm from './components/LoginForm';
 
 
 
@@ -24,7 +25,7 @@ import { Typography } from '@material-ui/core';
 const App = () => {
 
 
-  const [user, setUser] = useState({ name: 'none' });
+  const [user, setUser] = useState(null);
   const [storages, setStorages] = useState([]);
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -34,7 +35,7 @@ const App = () => {
   useEffect(() => {
     setSelectedStorage(0);
 
-    if (user._id) {
+    if (user) {
       storagesService.getStorages(user._id)
         .then(storages => {
           setStorages(storages);
@@ -55,6 +56,10 @@ const App = () => {
       });
   };
 
+  const loginUser = (data) => {
+    console.log(`data`, data)
+  };
+
   const handleStockClick = (itemId, change) => {
     storagesService.updateStorageStock(storages[selectedStorage]._id, itemId, change)
       .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
@@ -68,7 +73,7 @@ const App = () => {
         setItems(items.concat(savedItem));
         usersService.addUserItem(user._id, savedItem);
       })
-  }
+  };
 
   const deleteItem = (itemToDelete) => {
     if (window.confirm(`Poista tuote ${itemToDelete.name}?`)) {
@@ -76,7 +81,7 @@ const App = () => {
         .then(usersService.deleteUserItem(user._id, itemToDelete._id))
         .then(setItems(items.filter(item => item._id !== itemToDelete._id)));
     }
-  }
+  };
 
   const submitNewStorage = (newStorage) => {
     storagesService.createNewStorage(newStorage)
@@ -139,8 +144,10 @@ const App = () => {
       <div className="App">
 
         <Nav getUser={getUser} />
+       
         <Paper className='body-container'>
-          {user.storages ?
+        
+          {user ?
             <Switch>
               <Route path='/' exact>
                 <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
@@ -154,8 +161,7 @@ const App = () => {
               </Route>
             </Switch>
             : <div>
-              <Typography variant='h4'>Valitse käyttäjä</Typography>
-              <Loginimg style={{ width: "1000px" }} />
+              <LoginForm loginUser={loginUser} />
             </div>
           }
         </Paper>
