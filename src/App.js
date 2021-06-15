@@ -17,6 +17,7 @@ import categoriesService from './services/categories';
 import { ReactComponent as Loginimg } from './img/login.svg';
 import { Typography } from '@material-ui/core';
 import LoginForm from './components/LoginForm';
+import loginService from './services/login';
 
 
 
@@ -36,15 +37,15 @@ const App = () => {
     setSelectedStorage(0);
 
     if (user) {
-      storagesService.getStorages(user._id)
+      storagesService.getStorages(user.id)
         .then(storages => {
           setStorages(storages);
         });
 
-      itemsService.getUserItems(user._id)
+      itemsService.getUserItems(user.id)
         .then(items => setItems(items));
 
-      categoriesService.getCategories(user._id)
+      categoriesService.getCategories(user.id)
         .then(categories => setCategories(categories));
     }
   }, [user]);
@@ -56,8 +57,14 @@ const App = () => {
       });
   };
 
-  const loginUser = (data) => {
-    console.log(`data`, data)
+  const loginUser = async (data) => {
+    try {
+      const user = await loginService.login(data);
+      setUser(user);
+    } catch (e) {
+      console.log('login error')
+    }
+    
   };
 
   const handleStockClick = (itemId, change) => {
@@ -143,7 +150,7 @@ const App = () => {
     <Router>
       <div className="App">
 
-        <Nav getUser={getUser} />
+        <Nav user={user} />
        
         <Paper className='body-container'>
         
