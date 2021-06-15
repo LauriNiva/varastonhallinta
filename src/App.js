@@ -50,21 +50,29 @@ const App = () => {
     }
   }, [user]);
 
-  const getUser = (e) => {
-    usersService.getUser(e.target.value)
-      .then(res => {
-        setUser(res);
-      });
-  };
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
 
   const loginUser = async (data) => {
     try {
       const user = await loginService.login(data);
       setUser(user);
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      ) 
     } catch (e) {
       console.log('login error')
     }
-    
+  };
+
+  const logoutUser = () => {
+    window.localStorage.removeItem('loggedNoteappUser');
+    setUser(null);
   };
 
   const handleStockClick = (itemId, change) => {
@@ -150,7 +158,7 @@ const App = () => {
     <Router>
       <div className="App">
 
-        <Nav user={user} />
+        <Nav user={user} logoutUser={logoutUser} />
        
         <Paper className='body-container'>
         

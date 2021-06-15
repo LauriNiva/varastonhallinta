@@ -1,18 +1,12 @@
 import '../App.css';
 
 import React from 'react';
-import { AppBar, FormControl, InputLabel, makeStyles, MenuItem, Select, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../img/logo.svg';
 
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    marginLeft: 'auto',
-    color: 'white'
-  },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
@@ -27,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Nav = ({ getUser }) => {
+const Nav = ({ user, logoutUser }) => {
 
   const classes = useStyles();
 
@@ -36,8 +30,8 @@ const Nav = ({ getUser }) => {
   return (
     <AppBar position='fixed'>
       <Toolbar>
-        <Logo style = {{ width: "40px", height:"40px"}} />
-        
+        <Logo style={{ width: "40px", height: "40px" }} />
+
 
         <ul className='nav-links'>
           <Link className={classes.navStyle} to='/'>
@@ -52,17 +46,11 @@ const Nav = ({ getUser }) => {
           </Link>
         </ul>
 
-        <FormControl className={classes.formControl}>
-          <InputLabel className={classes.navStyle} id='user-select-label'>User</InputLabel>
-          <Select
-            labelId='user-select-label'
-            id='user-select'
-            defaultValue=''
-            onChange={getUser} >
-            <MenuItem value={"John"}>John</MenuItem>
-            <MenuItem value={"Jane"}>Jane</MenuItem>
-          </Select>
-        </FormControl>
+        {user
+          ? <div className="nav-user">{user.username}
+            <button onClick={logoutUser}>logout</button>
+          </div>
+          : ''}
       </Toolbar>
     </AppBar>
   )
