@@ -32,24 +32,24 @@ const Nav = ({ user, logoutUser }) => {
       <Toolbar>
         <Logo style={{ width: "40px", height: "40px" }} />
 
-
-        <ul className='nav-links'>
-          <Link className={classes.navStyle} to='/'>
-            <li>
-              <Typography>Etusivu</Typography>
-            </li>
-          </Link>
-          <Link className={classes.navStyle} to='/hallinta/tuotteet'>
-            <li>
-              <Typography>Hallinta</Typography>
-            </li>
-          </Link>
-        </ul>
-
         {user
-          ? <div className="nav-user">{user.username}
-            <button onClick={logoutUser}>logout</button>
-          </div>
+          ? <>
+            <ul className='nav-links'>
+              <Link className={classes.navStyle} to='/'>
+                <li>
+                  <Typography>Etusivu</Typography>
+                </li>
+              </Link>
+              <Link className={classes.navStyle} to='/hallinta/tuotteet'>
+                <li>
+                  <Typography>Hallinta</Typography>
+                </li>
+              </Link>
+            </ul>
+            <div className="nav-user">{user.username}
+              <button onClick={logoutUser}>logout</button>
+            </div>
+          </>
           : ''}
       </Toolbar>
     </AppBar>
