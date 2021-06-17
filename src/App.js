@@ -18,6 +18,7 @@ import { ReactComponent as Loginimg } from './img/login.svg';
 import { Typography } from '@material-ui/core';
 import LoginForm from './components/LoginForm';
 import loginService from './services/login';
+import NewUserDialog from './components/NewUserDialog';
 
 
 
@@ -64,7 +65,7 @@ const App = () => {
       setUser(user);
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
-      ) 
+      )
     } catch (e) {
       console.log('login error')
     }
@@ -74,6 +75,11 @@ const App = () => {
     window.localStorage.removeItem('loggedNoteappUser');
     setUser(null);
   };
+
+  const submitNewUser = (data) => {
+    usersService.createUser(data);
+  };
+  
 
   const handleStockClick = (itemId, change) => {
     storagesService.updateStorageStock(storages[selectedStorage]._id, itemId, change)
@@ -86,14 +92,14 @@ const App = () => {
     itemsService.createNewItem(newItem)
       .then(savedItem => {
         setItems(items.concat(savedItem));
-        usersService.addUserItem(user._id, savedItem);
+        usersService.addUserItem(user.id, savedItem);
       })
   };
 
   const deleteItem = (itemToDelete) => {
     if (window.confirm(`Poista tuote ${itemToDelete.name}?`)) {
       itemsService.deleteItem(itemToDelete._id)
-        .then(usersService.deleteUserItem(user._id, itemToDelete._id))
+        .then(usersService.deleteUserItem(user.id, itemToDelete._id))
         .then(setItems(items.filter(item => item._id !== itemToDelete._id)));
     }
   };
@@ -102,14 +108,14 @@ const App = () => {
     storagesService.createNewStorage(newStorage)
       .then(savedStorage => {
         setStorages(storages.concat(savedStorage));
-        usersService.addUserStorage(user._id, savedStorage);
+        usersService.addUserStorage(user.id, savedStorage);
       });
   };
 
   const deleteStorage = (storageToDelete) => {
     if (window.confirm(`Poista varasto ${storageToDelete.name} ?`)) {
       storagesService.deleteStorage(storageToDelete._id)
-        .then(usersService.deleteUserStorage(user._id, storageToDelete._id))
+        .then(usersService.deleteUserStorage(user.id, storageToDelete._id))
         .then(() => {
           setStorages(storages.filter(storage => storage._id !== storageToDelete._id));
           setSelectedStorage(0);
@@ -121,14 +127,14 @@ const App = () => {
     categoriesService.createNewCategory(newCategory)
       .then(savedCategory => {
         setCategories(categories.concat(savedCategory));
-        usersService.addUserCategory(user._id, savedCategory);
+        usersService.addUserCategory(user.id, savedCategory);
       });
   };
 
   const deleteCategory = (categoryToDelete) => {
     if (window.confirm(`Poista kategoria ${categoryToDelete.name} ?`)) {
       categoriesService.deleteCategory(categoryToDelete._id)
-        .then(usersService.deleteUserCategory(user._id, categoryToDelete._id))
+        .then(usersService.deleteUserCategory(user.id, categoryToDelete._id))
         .then(() => setCategories(categories.filter(category => category._id !== categoryToDelete._id)));
     }
   };
@@ -159,11 +165,11 @@ const App = () => {
       <div className="App">
 
         <Nav user={user} logoutUser={logoutUser} />
-       
+
         <Paper className='body-container'>
-        
-          {user ?
-            <Switch>
+
+          {user
+            ? <Switch>
               <Route path='/' exact>
                 <Storages storages={storages} selectedStorage={selectedStorage} setSelectedStorage={setSelectedStorage}
                   handleStockClick={handleStockClick} items={items} linkItemsToStorage={linkItemsToStorage}
@@ -177,6 +183,7 @@ const App = () => {
             </Switch>
             : <div>
               <LoginForm loginUser={loginUser} />
+              <NewUserDialog submitNewUser={submitNewUser}/>
             </div>
           }
         </Paper>

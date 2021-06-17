@@ -2,9 +2,10 @@ import { Button, TextField, Typography } from '@material-ui/core';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 
+
 const LoginForm = ({loginUser}) => {
   return (
-    <div className='login-form'>
+    <div className='login-form' >
       <Typography variant='h6'>Kirjaudu sisään</Typography>
       <Formik
         initialValues={{ username: '', password: '' }}
