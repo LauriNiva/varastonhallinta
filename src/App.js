@@ -14,25 +14,19 @@ import Paper from '@material-ui/core/Paper';
 import Options from './components/Options';
 import categoriesService from './services/categories';
 
-import { ReactComponent as Loginimg } from './img/login.svg';
-import { Typography } from '@material-ui/core';
 import LoginForm from './components/LoginForm';
 import loginService from './services/login';
 import NewUserDialog from './components/NewUserDialog';
 
 
 
-
-
 const App = () => {
-
 
   const [user, setUser] = useState(null);
   const [storages, setStorages] = useState([]);
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(0);
-
 
   useEffect(() => {
     setSelectedStorage(0);
@@ -52,9 +46,12 @@ const App = () => {
   }, [user]);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedVarastonhallintaUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
+      itemsService.setToken(user.token);
+      storagesService.setToken(user.token);
+      categoriesService.setToken(user.token);
       setUser(user)
     }
   }, [])
@@ -63,8 +60,11 @@ const App = () => {
     try {
       const user = await loginService.login(data);
       setUser(user);
+      itemsService.setToken(user.token);
+      storagesService.setToken(user.token);
+      categoriesService.setToken(user.token);
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedVarastonhallintaUser', JSON.stringify(user)
       )
     } catch (e) {
       console.log('login error')
@@ -72,7 +72,7 @@ const App = () => {
   };
 
   const logoutUser = () => {
-    window.localStorage.removeItem('loggedNoteappUser');
+    window.localStorage.removeItem('loggedVarastonhallintaUser');
     setUser(null);
   };
 
@@ -86,13 +86,11 @@ const App = () => {
       .then(updatedStorage => setStorages(storages.map(storage => storage._id !== storages[selectedStorage]._id ? storage : updatedStorage)));
   };
 
-
-
   const submitNewItem = (newItem) => {
+    newItem["userid"] = user.id; // POISTA TÄMÄ KUN TOKEN KÄYTÖSSÄ
     itemsService.createNewItem(newItem)
       .then(savedItem => {
         setItems(items.concat(savedItem));
-        usersService.addUserItem(user.id, savedItem);
       })
   };
 
