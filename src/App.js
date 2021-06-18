@@ -28,20 +28,27 @@ const App = () => {
   const [categories, setCategories] = useState([]);
   const [selectedStorage, setSelectedStorage] = useState(0);
 
-  useEffect(() => {
+  useEffect( () => {
     setSelectedStorage(0);
 
     if (user) {
       storagesService.getStorages(user.id)
-        .then(storages => {
-          setStorages(storages);
+        .then(storages => setStorages(storages))
+        .catch(error => {
+          if(error.response.status === 401)logoutUser();
         });
 
       itemsService.getUserItems(user.id)
-        .then(items => setItems(items));
+        .then(items => setItems(items))
+        .catch(error => {
+          if(error.response.status === 401)logoutUser();
+        });;
 
       categoriesService.getCategories(user.id)
-        .then(categories => setCategories(categories));
+        .then(categories => setCategories(categories))
+        .catch(error => {
+          if(error.response.status === 401)logoutUser();
+        });;
     }
   }, [user]);
 
